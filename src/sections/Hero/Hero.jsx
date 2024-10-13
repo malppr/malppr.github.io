@@ -1,62 +1,42 @@
-import styles from './HeroStyles.module.css';
-import heroImg from '../../assets/Design uten navn.png';
-import sun from '../../assets/sun.svg';
-import moon from '../../assets/moon.svg';
-import twitterLight from '../../assets/twitter-light.svg';
-import twitterDark from '../../assets/twitter-dark.svg';
-import githubLight from '../../assets/github-light.svg';
-import githubDark from '../../assets/github-dark.svg';
-import linkedinLight from '../../assets/linkedin-light.svg';
-import linkedinDark from '../../assets/linkedin-dark.svg';
-import CV from '../../assets/cv.pdf';
-import { useTheme } from '../../common/ThemeContext';
+import styles from "./HeroStyles.module.css";
+// import heroImg from '../../assets/hero.png';
+import heroImg from "../../assets/hero-cartoon.png";
+import email from "../../assets/email.png";
+import githubLight from "../../assets/github-light.svg";
+import linkedinLight from "../../assets/linkedin-light.svg";
+import CV from "../../assets/cv.pdf";
+import { useTheme } from "../../common/ThemeContext";
 
 function Hero() {
-  const { theme, toggleTheme } = useTheme();
-
-  const themeIcon = theme === 'light' ? sun : moon;
-  const twitterIcon = theme === 'light' ? twitterLight : twitterDark;
-  const githubIcon = theme === 'light' ? githubLight : githubDark;
-  const linkedinIcon = theme === 'light' ? linkedinLight : linkedinDark;
-
   return (
     <section id="hero" className={styles.container}>
       <div className={styles.colorModeContainer}>
         <img
           src={heroImg}
           className={styles.hero}
-          alt="Profile picture of Harris Johnsen"
-        />
-        <img
-          className={styles.colorMode}
-          src={themeIcon}
-          alt="Color mode icon"
-          onClick={toggleTheme}
+          alt="Profile picture of Bryan Chew"
         />
       </div>
       <div className={styles.info}>
-        <h1>
-          Harris
-          <br />
-          Johnsen
-        </h1>
-        <h2>Frontend Developer</h2>
+        <h3>Hello, I'm</h3>
+        <h1>Bryan Chew</h1>
+        {/* <h2>Engineer</h2> */}
         <span>
-          <a href="https://twitter.com/" target="_blank">
-            <img src={twitterIcon} alt="Twitter icon" />
+          <a href="mailto:bryanchewlj@gmail.com" target="_blank">
+            <img src={email} alt="Twitter icon" />
           </a>
-          <a href="https://github.com/" target="_blank">
-            <img src={githubIcon} alt="Github icon" />
+          <a href="https://github.com/malppr" target="_blank">
+            <img src={githubLight} alt="Github icon" />
           </a>
-          <a href="https://linkedin.com/" target="_blank">
-            <img src={linkedinIcon} alt="Linkedin icon" />
+          <a href="https://www.linkedin.com/in/bchewlj/" target="_blank">
+            <img src={linkedinLight} alt="Linkedin icon" />
           </a>
         </span>
         <p className={styles.description}>
-          With a passion for developing modern React web apps for commercial
-          businesses.
+          An engineer with a passion for all things tech, experienced in diverse
+          fields including AI research, Product Design, and Robotics.
         </p>
-        <a href={CV} download>
+        <a href={CV} download="Bryan_CV.pdf">
           <button className="hover">Resume</button>
         </a>
       </div>

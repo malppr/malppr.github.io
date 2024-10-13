@@ -1,11 +1,10 @@
-import styles from './FooterStyles.module.css';
+import styles from "./FooterStyles.module.css";
 
 function Footer() {
   return (
     <section id="footer" className={styles.container}>
       <p>
-        &copy; 2024 Harris johnsen. <br />
-        All rights reserved.
+        thanks to https://github.com/Ade-mir/harris-johnsen-2 for the template
       </p>
     </section>
   );

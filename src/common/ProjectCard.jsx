@@ -1,12 +1,17 @@
 import React from 'react';
-
+import { Link } from "react-router-dom";
+import "./ProjectCard.css"
 function ProjectCard({ src, link, h3, p }) {
   return (
-    <a href={link} target="_blank">
-      <img className="hover" src={src} alt={`${h3} logo`} />
-      <h3>{h3}</h3>
-      <p>{p}</p>
-    </a>
+    <Link to={link} className="project-card">
+      <div className="image-container">
+        <img className="hover" src={src} alt={`${h3} logo`} />
+      </div>
+      <div className="text-container">
+        <h3>{h3}</h3>
+        <p>{p}</p>
+      </div>
+    </Link>
   );
 }
 

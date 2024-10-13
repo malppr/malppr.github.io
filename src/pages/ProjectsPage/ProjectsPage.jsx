@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate,useParams } from 'react-router-dom';
-import projectData from './projectData'; // Import the project data
-import './ProjectsPage.css'; // Add your styles here
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import projectData from "./projectData"; // Import the project data
+import "./ProjectsPage.css"; // Add your styles here
 
 const ProjectsPage = () => {
   const { projectId } = useParams();
@@ -16,9 +16,8 @@ const ProjectsPage = () => {
     }
   }, [projectId]);
 
-
   const goToHome = (id) => {
-    navigate(`/#p2`);
+    navigate(`/#projects`);
   };
 
   const renderTabContent = () => {
@@ -29,9 +28,11 @@ const ProjectsPage = () => {
 
   return (
     <div className="projects-page">
-      <h1 onClick={() => goToHome(projectId)}>Back to Projects</h1>
-      <h1>{project?.title}</h1>
-     <div className="tab-content">{renderTabContent()}</div>
+      <h1 className="back-button" onClick={() => goToHome(projectId)}>
+        Back to Projects
+      </h1>
+      <h1 className="project-title">{project?.title}</h1>
+      <div className="project-content">{renderTabContent()}</div>
     </div>
   );
 };

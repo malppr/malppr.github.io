@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   text-align: center;
-
+  max-width: 1600px;
   img {
     max-width: 250px;
     align-self: center;
@@ -27,6 +27,7 @@
   flex-direction: column;
   align-items: center;
   gap: 30px;
+
 }
 
 @media (width >= 800px) {

@@ -1,4 +1,65 @@
 .projects-page {
-    padding: 20px;
-  }
-  
+  padding: 5%;
+  align-items: flex-start;
+  flex: auto;
+  max-width: 1200px;
+}
+
+.back-button {
+  display: inline-block;
+  font-size: 18px;
+  color: #007bff; /* A blue color for the button text */
+  cursor: pointer;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-color: #f5f5f5; /* Light background color */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.back-button:hover {
+  background-color: #e0e0e0; /* Slightly darker background on hover */
+  color: #0056b3; /* Darker shade of blue on hover */
+}
+
+.back-button:active {
+  background-color: #d0d0d0; /* Even darker background when active */
+  color: #004080; /* Darker text color when active */
+}
+
+.projects-page h1 {
+  margin-bottom: 30px; /* Add space between the title and the content */
+}
+.projects-page h2 {
+  margin-bottom: 10px; /* Add space between the title and the content */
+}
+
+.project-content {
+  padding-top: 20px;
+}
+.project-content .key-image {
+  max-width: 100%;
+  margin-bottom: 20px;
+  /* align-items: center; */
+}
+.project-content p {
+  font-weight: 300;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  /* align-items: center; */
+}
+.project-content iframe {
+  margin-bottom: 30px;
+  /* align-items: center; */
+}
+.project-content h3 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  /* align-items: center; */
+}
+
+/* .project-content .gallery {
+  height: 200px;
+  width: auto;
+
+  /* align-items: center; */

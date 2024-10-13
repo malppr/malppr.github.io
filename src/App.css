@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
 :root {
   --background-color: #fff;
   --btn-color: #0987f2;
@@ -8,7 +10,7 @@
   --footer-text-color: #888;
 }
 
-[data-theme='dark'] {
+[data-theme="dark"] {
   --background-color: #222;
   --btn-color: #fff;
   --btn-text-color: #222;
@@ -43,7 +45,8 @@ p {
 h2,
 h3,
 p {
-  font-family: 'Roboto Mono', monospace;
+  /* font-family: "Roboto Mono", monospace; */
+  font-family: "Poppins", sans-serif;
 }
 
 h1,
@@ -57,25 +60,24 @@ h3 {
 }
 
 h1 {
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   font-size: 32px;
 }
 
 p {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 300;
 }
-
+em {
+  font-size: 18px;
+  font-weight: 300;
+}
 .sectionTitle {
   margin-bottom: 30px;
 }
 
 .hover {
   cursor: pointer;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 @media (width >= 800px) {
