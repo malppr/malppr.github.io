@@ -116,7 +116,7 @@ const projectData = {
     content: (
       <div>
         <img
-          src="/lumicomb/key.jpg"
+          src="/lumicomb/keynew.jpg"
           alt="LumiComb key image"
           className="key-image"
         />
