@@ -15,7 +15,7 @@ const projectData = {
           An autonomous Robotic Refuse bin replacement system for urban areas.
         </h2>
         <p>
-          Beetlebot was developed in collaboration with CS Pte Ltd as part of my
+          Beetlebot was developed in collaboration with NCS Pte Ltd as part of my
           final-year capstone project. The goal was to create an autonomous
           robotic solution for replacing bins, specifically for airport
           environments. Our team built a full-scale prototype, attaching it to
@@ -44,8 +44,8 @@ const projectData = {
           </a>
         </p>
         <iframe
-          width="560"
-          height="315"
+          width="400"
+          height="250"
           src="https://www.youtube.com/embed/jKT9NWG_ypI?si=NnmFnIYY_IXPrIei"
           title="YouTube video player"
           frameborder="0"

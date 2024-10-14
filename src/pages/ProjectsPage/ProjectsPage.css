@@ -1,5 +1,8 @@
 .projects-page {
-  padding: 5%;
+  /* padding: 5%; */
+  margin-top: 5%;
+  margin-left: 17%;
+  margin-right: 17%;
   align-items: flex-start;
   flex: auto;
   max-width: 1200px;
