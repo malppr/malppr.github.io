@@ -116,7 +116,7 @@ const projectData = {
     content: (
       <div>
         <img
-          src="/lumicomb/keynew.jpg"
+          src="/lumicomb/key.jpg"
           alt="LumiComb key image"
           className="key-image"
         />
@@ -145,9 +145,9 @@ const projectData = {
         </p>
         <h1>Gallery</h1>
         <Carousel className="gallery" showArrows={true}>
-          <div className="gallery">
+          {/* <div className="gallery">
             <img src="/lumicomb/standing.jpeg" />
-          </div>
+          </div> */}
 
           <div className="gallery">
             <img src="/lumicomb/largeannot.png" />
