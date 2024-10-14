@@ -17,7 +17,7 @@ const ProjectsPage = () => {
   }, [projectId]);
 
   const goToHome = (id) => {
-    navigate(`/#projects`);
+    navigate(`/`);
   };
 
   const renderTabContent = () => {
