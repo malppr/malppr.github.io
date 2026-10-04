@@ -92,7 +92,7 @@ const archive = projects.filter((p) => p.data.tier === 'archive');
 </BaseLayout>
 
 <script>
-	// "Selected" shows the main projects; an area tab shows every project in that area,
+	// "Selected" shows the main projects; an area tab shows every project in that area (a project can be in two),
 	// including earlier (archive) ones.
 	const group = document.querySelector<HTMLElement>('.filters');
 	if (group) {
@@ -100,7 +100,7 @@ const archive = projects.filter((p) => p.data.tier === 'archive');
 		const rows = document.querySelectorAll<HTMLElement>('.work [data-area]');
 		const apply = (f: string) => {
 			for (const b of group.querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.filter === f));
-			for (const r of rows) r.hidden = f === 'selected' ? r.dataset.tier !== 'main' : r.dataset.area !== f;
+			for (const r of rows) r.hidden = f === 'selected' ? r.dataset.tier !== 'main' : !(r.dataset.areas ?? '').split(' ').includes(f);
 		};
 		group.addEventListener('click', (e) => {
 			const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-filter]');

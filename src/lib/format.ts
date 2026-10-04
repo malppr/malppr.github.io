@@ -24,6 +24,12 @@ export function areaOf(tags: readonly string[]): Area {
 	return 'hardware';
 }
 
+/** Every Work tab a project appears under: its main area first, plus AI for any project tagged `ai`. */
+export function areasOf(tags: readonly string[]): Area[] {
+	const main = areaOf(tags);
+	return tags.includes('ai') && main !== 'ai' ? [main, 'ai'] : [main];
+}
+
 export function yearRange(start: Date, end?: Date, ongoing = false): string {
 	const a = start.getUTCFullYear();
 	if (ongoing) return `${a} – now`;

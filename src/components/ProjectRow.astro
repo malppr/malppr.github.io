@@ -3,7 +3,7 @@
 // `data-tier` lets the filter show earlier (archive) projects only inside their area tab.
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import { AREA_LABELS, areaOf, yearRange } from '../lib/format';
+import { AREA_LABELS, areaOf, areasOf, yearRange } from '../lib/format';
 
 interface Props {
 	project: CollectionEntry<'projects'>;
@@ -16,7 +16,7 @@ const d = project.data;
 const area = areaOf(d.tags);
 ---
 
-<li class="row" data-area={area} data-tier={d.tier} hidden={hidden}>
+<li class="row" data-area={area} data-areas={areasOf(d.tags).join(' ')} data-tier={d.tier} hidden={hidden}>
 	<a href={`/projects/${project.id}`}>
 		<div class="thumb">
 			<Image src={d.cover} alt={d.coverAlt} width={480} />
