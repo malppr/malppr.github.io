@@ -1,0 +1,35 @@
+<!-- Top-down sprite, facing up (forward = -y). Axle runs left-right; robot centre is (130, 90). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 180" role="img" aria-label="Mascot seen from above">
+  <defs>
+    <linearGradient id="mt-body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e2604f"/>
+      <stop offset=".5" stop-color="#cd4838"/>
+      <stop offset="1" stop-color="#a3342a"/>
+    </linearGradient>
+  </defs>
+
+  <g fill="#000" opacity=".13" transform="translate(5 7)">
+    <rect x="18" y="24" width="24" height="132" rx="9"/>
+    <rect x="218" y="24" width="24" height="132" rx="9"/>
+    <rect x="40" y="45" width="180" height="90" rx="30"/>
+  </g>
+
+  <!-- wheels -->
+  <rect x="18" y="24" width="24" height="132" rx="9" fill="#25252b"/>
+  <rect x="218" y="24" width="24" height="132" rx="9" fill="#25252b"/>
+  <path d="M22 40h16M22 58h16M22 76h16M22 94h16M22 112h16M22 130h16M222 40h16M222 58h16M222 76h16M222 94h16M222 112h16M222 130h16"
+        stroke="#45454e" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- body -->
+  <rect x="40" y="45" width="180" height="90" rx="30" fill="url(#mt-body)"/>
+  <path d="M46 68H214M46 112H214" stroke="#7a2219" stroke-opacity=".3" stroke-width="2"/>
+  <rect x="70" y="76" width="74" height="8" rx="4" fill="#fff" opacity=".3"/>
+
+  <!-- washer eyes, seen from slightly behind so they read as "forward" -->
+  <g>
+    <ellipse cx="92" cy="44" rx="30" ry="11" fill="#f2b23a" stroke="#b5771b" stroke-width="2.5"/>
+    <ellipse cx="92" cy="43" rx="10" ry="4" fill="#26170d"/>
+    <ellipse cx="168" cy="44" rx="30" ry="11" fill="#f2b23a" stroke="#b5771b" stroke-width="2.5"/>
+    <ellipse cx="168" cy="43" rx="10" ry="4" fill="#26170d"/>
+  </g>
+</svg>

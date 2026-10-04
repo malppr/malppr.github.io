@@ -1,0 +1,75 @@
+---
+// Front-view mascot with optional idle animation (blink, bob, glance).
+// Animation is disabled under prefers-reduced-motion.
+import MascotFront from '../assets/mascot/mascot-front.svg';
+
+interface Props {
+	size?: number | string;
+	animated?: boolean;
+	class?: string;
+}
+
+const { size = 160, animated = true, class: className } = Astro.props;
+const width = typeof size === 'number' ? `${size}px` : size;
+---
+
+<span class:list={['mascot', { 'mascot--animated': animated }, className]} style={`--mascot-w: ${width}`}>
+	<MascotFront />
+</span>
+
+<style>
+	.mascot {
+		display: inline-block;
+		width: var(--mascot-w);
+		line-height: 0;
+	}
+
+	.mascot :global(svg) {
+		width: 100%;
+		height: auto;
+		overflow: visible;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.mascot--animated :global(.mb-bot) {
+			animation: mascot-bob 2.6s ease-in-out infinite;
+		}
+
+		.mascot--animated :global(.mb-shadow) {
+			transform-box: fill-box;
+			transform-origin: center;
+			animation: mascot-shadow 2.6s ease-in-out infinite;
+		}
+
+		.mascot--animated :global(.mb-eye) {
+			transform-box: fill-box;
+			transform-origin: center;
+			animation: mascot-blink 4.8s ease-in-out infinite;
+		}
+
+		.mascot--animated :global(.mb-pupil) {
+			animation: mascot-glance 7s ease-in-out infinite;
+		}
+	}
+
+	@keyframes mascot-bob {
+		0%, 100% { transform: translateY(0); }
+		50% { transform: translateY(-5px); }
+	}
+
+	@keyframes mascot-shadow {
+		0%, 100% { transform: scaleX(1); opacity: 0.13; }
+		50% { transform: scaleX(0.92); opacity: 0.09; }
+	}
+
+	@keyframes mascot-blink {
+		0%, 92%, 100% { transform: scaleY(1); }
+		95% { transform: scaleY(0.1); }
+	}
+
+	@keyframes mascot-glance {
+		0%, 30%, 100% { transform: translate(0, 0); }
+		38%, 55% { transform: translate(5px, 1px); }
+		63%, 80% { transform: translate(-5px, 1px); }
+	}
+</style>

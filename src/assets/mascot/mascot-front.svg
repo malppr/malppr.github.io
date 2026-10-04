@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 210" role="img" aria-label="Mascot: a small red two-wheeled robot with yellow washer eyes">
+  <defs>
+    <linearGradient id="mf-body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e2604f"/>
+      <stop offset=".55" stop-color="#c94436"/>
+      <stop offset="1" stop-color="#a3342a"/>
+    </linearGradient>
+    <linearGradient id="mf-wheel" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1b1b20"/>
+      <stop offset=".45" stop-color="#3d3d45"/>
+      <stop offset="1" stop-color="#1b1b20"/>
+    </linearGradient>
+    <radialGradient id="mf-eye" cx=".38" cy=".32" r=".75">
+      <stop offset="0" stop-color="#ffd877"/>
+      <stop offset=".6" stop-color="#f2b23a"/>
+      <stop offset="1" stop-color="#d48e27"/>
+    </radialGradient>
+  </defs>
+
+  <ellipse class="mb-shadow" cx="130" cy="197" rx="102" ry="8" fill="#000" opacity=".13"/>
+
+  <g class="mb-bot">
+    <!-- body -->
+    <rect x="40" y="84" width="180" height="96" rx="30" fill="url(#mf-body)"/>
+    <path d="M44 110H216M44 154H216" stroke="#7a2219" stroke-opacity=".3" stroke-width="2"/>
+    <rect x="58" y="91" width="74" height="9" rx="4.5" fill="#fff" opacity=".3"/>
+
+    <!-- face -->
+    <ellipse cx="80" cy="130" rx="12" ry="6.5" fill="#ff9d8c" opacity=".6"/>
+    <ellipse cx="180" cy="130" rx="12" ry="6.5" fill="#ff9d8c" opacity=".6"/>
+    <path class="mb-mouth" d="M119 127q11 10 22 0" fill="none" stroke="#561812" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- wheels -->
+    <rect x="21" y="70" width="23" height="125" rx="10" fill="url(#mf-wheel)"/>
+    <rect x="216" y="70" width="23" height="125" rx="10" fill="url(#mf-wheel)"/>
+
+    <!-- washer eyes -->
+    <g class="mb-eye">
+      <circle cx="92" cy="57" r="30" fill="url(#mf-eye)" stroke="#b5771b" stroke-width="2.5"/>
+      <circle class="mb-pupil" cx="92" cy="58" r="12" fill="#26170d"/>
+      <circle cx="96.5" cy="53.5" r="4" fill="#fff"/>
+    </g>
+    <g class="mb-eye">
+      <circle cx="168" cy="57" r="30" fill="url(#mf-eye)" stroke="#b5771b" stroke-width="2.5"/>
+      <circle class="mb-pupil" cx="168" cy="58" r="12" fill="#26170d"/>
+      <circle cx="172.5" cy="53.5" r="4" fill="#fff"/>
+    </g>
+  </g>
+</svg>
