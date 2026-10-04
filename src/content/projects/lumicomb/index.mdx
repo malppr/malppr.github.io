@@ -1,0 +1,46 @@
+---
+title: LumiComb
+summary: A socially interactive, walkable light exhibition for a post-COVID world.
+date: 2021-01-01
+tags: [design, hardware]
+tier: archive
+order: 10
+context: SUTD 3.007 Design Thinking and Innovation
+cover: ./cover.jpg
+coverAlt: Glowing hexagonal floor tiles at night with the Singapore skyline behind
+hero: ./hero.jpg
+heroAlt: Model figures standing on glowing hexagonal tiles, with the Merlion and city skyline at night
+---
+
+import Gallery from '../../../components/mdx/Gallery.astro';
+import electronics from './electronics.jpg';
+import small from './small-prototype.jpg';
+import render from './full-scale-render.jpg';
+import specSmall from './spec-small.jpg';
+import specFull from './spec-full.jpg';
+import patterns from './patterns.png';
+import standing from './standing.jpeg';
+
+## Overview
+
+LumiComb was created in 2021, set in a post-COVID recovery context. The aim was to encourage social interaction through a walkable light exhibition with dynamic, interactive light patterns.
+
+## How it works
+
+The exhibit is a field of hexagonal tiles that detect when someone stands on them. Each tile changes colour, and together they form an overall pattern. Several patterns respond to people: linking visitors with illuminated paths, or sending out expanding rings as people move between tiles.
+
+We built a small-scale prototype from 3D-printed wood filament, motion sensors and LED strips to test the interaction patterns, and two full-scale units from recycled wooden planks with LED lighting and motion sensors.
+
+## Gallery
+
+<Gallery
+  items={[
+    { src: standing, alt: 'A foot stepping on a full-scale tile that lights up red', caption: 'Full-scale tiles reacting to a visitor' },
+    { src: electronics, alt: 'Annotated full-scale tiles showing PIR sensor, Arduino, LEDs and power source', caption: 'Electronics in the full-scale units' },
+    { src: small, alt: 'Small-scale prototype: a cluster of lit hexagonal cells', caption: 'Small-scale prototype' },
+    { src: patterns, alt: 'Four diagrams of interaction patterns: light up, trailing, interconnect and radiate', caption: 'Interaction patterns' },
+    { src: render, alt: 'Render of the full installation on a waterfront promenade', caption: 'Concept render of the full installation' },
+    { src: specSmall, alt: 'Technical drawing of the small-scale prototype with dimensions in millimetres', caption: 'Small-scale prototype specifications' },
+    { src: specFull, alt: 'Technical drawing of a life-size tile pair with dimensions in metres', caption: 'Life-scale specifications' },
+  ]}
+/>

@@ -1,17 +1,135 @@
 ---
-// W0 placeholder — replaced by the real home page in W1–W2.
+// W1 home: structure and content only. Visual design comes in W2, roaming mascot in W3.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Mascot from '../components/Mascot.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PublicationList from '../components/PublicationList.astro';
+import { isVisible, sortProjects, yearRange } from '../lib/format';
+
+const projects = (await getCollection('projects', isVisible)).sort(sortProjects);
+const main = projects.filter((p) => p.data.tier === 'main');
+const archive = projects.filter((p) => p.data.tier === 'archive');
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Bryan Chew</title>
-	</head>
-	<body>
-		<h1>Bryan Chew</h1>
-		<p>Portfolio overhaul in progress (W0 scaffold).</p>
-	</body>
-</html>
+<BaseLayout>
+	<section class="hero container">
+		<div>
+			<p class="eyebrow">Robot learning · AI</p>
+			<h1>Hi, I'm Bryan. I build robots and the models that drive them.</h1>
+			<p class="lede">
+				Engineer working at the intersection of foundation models and robotics. Below are the things I've built, studied
+				and am still figuring out.
+			</p>
+			<p class="links">
+				<a href="https://github.com/malppr">GitHub</a>
+				<a href="https://www.linkedin.com/in/bchewlj/">LinkedIn</a>
+				<a href="mailto:bryanchewlj@gmail.com">Email</a>
+			</p>
+		</div>
+		<Mascot size={220} />
+	</section>
+
+	<section id="projects" class="container section">
+		<h2>Projects</h2>
+		<div class="grid">
+			{main.map((p) => <ProjectCard project={p} />)}
+		</div>
+	</section>
+
+	<section id="archive" class="container section">
+		<h2>Other projects</h2>
+		<ul class="archive">
+			{
+				archive.map((p) => (
+					<li>
+						<a href={`/projects/${p.id}`}>{p.data.title}</a>
+						<span>{p.data.summary}</span>
+						<span class="year">{yearRange(p.data.date, p.data.endDate)}</span>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<section id="publications" class="container section">
+		<h2>Publications</h2>
+		<PublicationList />
+	</section>
+</BaseLayout>
+
+<style>
+	.hero {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 32px;
+		flex-wrap: wrap;
+		padding-block: 48px 24px;
+	}
+
+	.hero > div {
+		flex: 1 1 420px;
+	}
+
+	h1 {
+		margin: 8px 0 16px;
+		font-size: clamp(2rem, 5vw, 3rem);
+	}
+
+	.lede {
+		max-width: 52ch;
+		color: var(--muted);
+		font-size: 1.1rem;
+	}
+
+	.links {
+		display: flex;
+		gap: 20px;
+	}
+
+	.section {
+		margin-top: 72px;
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 20px;
+	}
+
+	.archive {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.archive li {
+		display: grid;
+		grid-template-columns: 180px 1fr auto;
+		gap: 16px;
+		padding: 12px 0;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.archive span {
+		color: var(--muted);
+		font-size: 15px;
+	}
+
+	.year {
+		font-family: var(--font-mono);
+		font-size: 13px !important;
+	}
+
+	@media (max-width: 640px) {
+		.archive li {
+			grid-template-columns: 1fr auto;
+		}
+
+		.archive li span:not(.year) {
+			grid-column: 1 / -1;
+			grid-row: 2;
+		}
+	}
+</style>

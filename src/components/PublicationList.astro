@@ -1,0 +1,65 @@
+---
+import { getCollection } from 'astro:content';
+import { ME } from '../lib/format';
+
+const pubs = (await getCollection('publications')).sort((a, b) => b.data.year - a.data.year);
+---
+
+<ol class="pubs">
+	{
+		pubs.map(({ data }) => {
+			const link = data.links.paper ?? data.links.doi ?? data.links.arxiv;
+			return (
+				<li>
+					<p class="title">{link ? <a href={link}>{data.title}</a> : data.title}</p>
+					<p class="authors">
+						{data.authors.map((a, i) => (
+							<>
+								{ME.test(a) ? <strong>{a}</strong> : a}
+								{i < data.authors.length - 1 && ', '}
+							</>
+						))}
+					</p>
+					<p class="venue">
+						{data.venue} {data.year}
+						{data.project && (
+							<>
+								{' · '}
+								<a href={`/projects/${data.project.id}`}>Project page</a>
+							</>
+						)}
+					</p>
+				</li>
+			);
+		})
+	}
+</ol>
+
+<style>
+	.pubs {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 20px;
+	}
+
+	p {
+		margin: 0;
+	}
+
+	.title {
+		font-weight: 600;
+	}
+
+	.authors,
+	.venue {
+		font-size: 15px;
+		color: var(--muted);
+	}
+
+	.venue {
+		font-family: var(--font-mono);
+		font-size: 13px;
+	}
+</style>

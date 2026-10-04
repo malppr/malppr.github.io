@@ -1,0 +1,185 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { TAG_LABELS, isVisible, sortProjects, yearRange } from '../../lib/format';
+
+export async function getStaticPaths() {
+	const projects = (await getCollection('projects', isVisible)).sort(sortProjects);
+	return projects.map((project, i) => ({
+		params: { slug: project.id },
+		props: { project, prev: projects[i - 1], next: projects[i + 1] },
+	}));
+}
+
+interface Props {
+	project: CollectionEntry<'projects'>;
+	prev?: CollectionEntry<'projects'>;
+	next?: CollectionEntry<'projects'>;
+}
+
+const { project, prev, next } = Astro.props;
+const { Content } = await render(project);
+const d = project.data;
+
+const LINK_LABELS: Record<string, string> = {
+	paper: 'Paper',
+	arxiv: 'arXiv',
+	code: 'Code',
+	video: 'Video',
+	demo: 'Live demo',
+	more: 'More info',
+};
+const links = Object.entries(d.links).filter(([, url]) => url);
+---
+
+<BaseLayout title={d.title} description={d.summary} image={d.cover} noindex={d.draft}>
+	<article>
+		<header class="content head">
+			<a href="/#projects" class="back">← All projects</a>
+			<p class="eyebrow">
+				{yearRange(d.date, d.endDate, d.status === 'ongoing')}
+				{d.context && <> · {d.context}</>}
+			</p>
+			<h1>{d.title}</h1>
+			<p class="summary">{d.summary}</p>
+
+			<dl class="facts">
+				{
+					d.role && (
+						<div>
+							<dt>My role</dt>
+							<dd>{d.role}</dd>
+						</div>
+					)
+				}
+				<div>
+					<dt>Tags</dt>
+					<dd>{d.tags.map((t) => TAG_LABELS[t]).join(' · ')}</dd>
+				</div>
+			</dl>
+
+			{
+				links.length > 0 && (
+					<p class="links">
+						{links.map(([k, url]) => (
+							<a href={url}>{LINK_LABELS[k] ?? k} ↗</a>
+						))}
+					</p>
+				)
+			}
+		</header>
+
+		{
+			d.hero && (
+				<div class="container hero">
+					<Image src={d.hero} alt={d.heroAlt ?? ''} widths={[640, 960, 1280, 1600]} sizes="(min-width: 1120px) 1120px, 100vw" loading="eager" />
+				</div>
+			)
+		}
+
+		<div class="content prose">
+			<Content />
+		</div>
+
+		<nav class="content pager" aria-label="More projects">
+			{prev ? <a href={`/projects/${prev.id}`}>← {prev.data.title}</a> : <span />}
+			{next ? <a href={`/projects/${next.id}`}>{next.data.title} →</a> : <span />}
+		</nav>
+	</article>
+</BaseLayout>
+
+<style>
+	.head {
+		padding-top: 24px;
+	}
+
+	.back {
+		display: inline-block;
+		margin-bottom: 24px;
+		font-size: 15px;
+		color: var(--muted);
+		text-decoration: none;
+	}
+
+	h1 {
+		margin: 8px 0 12px;
+		font-size: clamp(2rem, 5vw, 2.8rem);
+	}
+
+	.summary {
+		margin: 0;
+		font-size: 1.2rem;
+		color: var(--muted);
+	}
+
+	.facts {
+		display: grid;
+		gap: 10px;
+		margin: 24px 0;
+		padding: 16px 0;
+		border-block: 1px solid var(--border);
+	}
+
+	.facts div {
+		display: grid;
+		grid-template-columns: 90px 1fr;
+		gap: 12px;
+	}
+
+	dt {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: var(--muted);
+		padding-top: 3px;
+	}
+
+	dd {
+		margin: 0;
+		font-size: 15px;
+	}
+
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+
+	.links a {
+		padding: 6px 14px;
+		border: 1px solid var(--border);
+		border-radius: 999px;
+		font-size: 14px;
+		text-decoration: none;
+		background: var(--surface);
+	}
+
+	.links a:hover {
+		border-color: var(--accent);
+	}
+
+	.hero {
+		margin-block: 32px;
+	}
+
+	.hero :global(img) {
+		display: block;
+		width: 100%;
+		max-height: 640px;
+		object-fit: contain;
+		border-radius: var(--radius);
+		background: var(--surface);
+	}
+
+	.pager {
+		display: flex;
+		justify-content: space-between;
+		gap: 16px;
+		margin-top: 64px;
+		padding-top: 24px;
+		border-top: 1px solid var(--border);
+		font-size: 15px;
+	}
+</style>

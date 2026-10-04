@@ -1,0 +1,56 @@
+---
+title: BeetleBot
+summary: An autonomous robot that swaps out full refuse bins in public spaces like airports.
+date: 2023-09-01
+endDate: 2024-04-30
+tags: [hardware, perception]
+featured: true
+order: 2
+context: SUTD capstone, in collaboration with NCS
+role: Lead for the robotic unit — frame design, bin-handling pipeline, software and electronics integration (team of 7)
+cover: ./cover.jpg
+coverAlt: BeetleBot, a white boxy robot with a bin icon on its side, on a tiled floor
+hero: ./hero.jpg
+heroAlt: BeetleBot mounted on its mobile base, lit by blue underglow
+links:
+  video: https://www.youtube.com/watch?v=jKT9NWG_ypI
+  more: https://capstoneshowcase.sutd.edu.sg/project/beetlebot-the-future-of-waste-management/
+---
+
+import YouTube from '../../../components/mdx/YouTube.astro';
+import Gallery from '../../../components/mdx/Gallery.astro';
+import front from './robot-front.jpg';
+import camera from './camera.jpg';
+import structure from './structure.png';
+import pickup from './pickup.jpg';
+import prototype from './prototype.png';
+import holding from './holding-area.png';
+
+## Overview
+
+BeetleBot was my final-year capstone, built with NCS. The goal was an autonomous robot that replaces full refuse bins, aimed at airport environments. We built a full-scale prototype on an NCS mobile robot base, with a forklift-like mechanism that picks up bins and carries them to a central collection point.
+
+## How it works
+
+The robot runs a bin-handling pipeline in ROS: **locate** the bin, **navigate** to it, **align**, **lift** and **transport** it. Combined with the mobile base's navigation stack, this gives a fully automated bin swap. In testing, it successfully swapped the bin in every run.
+
+Around the robot, we also built a mobile app, a web dashboard and a back-end server that schedules a potential swarm of robots, so operators can monitor and control the whole system.
+
+## What I did
+
+As lead for the robotic unit, I designed the frame, built the bin-handling pipeline, and oversaw the integration of software and electronics so the hardware worked reliably end to end.
+
+<YouTube id="jKT9NWG_ypI" title="BeetleBot: the future of waste management" />
+
+## Gallery
+
+<Gallery
+  items={[
+    { src: front, alt: 'Front view of BeetleBot with its bin-shaped logo', caption: 'The final robot' },
+    { src: pickup, alt: 'Two photos of BeetleBot lowering over a bin and lifting it', caption: 'Picking up a bin' },
+    { src: structure, alt: 'Exploded diagram of BeetleBot showing the frame, bin adapter, electronics and mobile base', caption: 'Mechanical structure' },
+    { src: camera, alt: 'Depth camera mounted at the front of the robot', caption: 'Camera for locating bins' },
+    { src: prototype, alt: 'Small 3D-printed prototype of the bin-lifting mechanism', caption: 'Early prototype of the lifting mechanism' },
+    { src: holding, alt: 'Diagram of the robot moving bins between a holding area and their positions', caption: 'Concept: swapping bins from a holding area' },
+  ]}
+/>

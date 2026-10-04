@@ -1,0 +1,115 @@
+/* W1 base styles: tokens + readable defaults. Visual design (fonts, accent, dark mode) lands in W2. */
+
+:root {
+	--bg: #fbfaf7;
+	--surface: #ffffff;
+	--fg: #1d1c1a;
+	--muted: #67635c;
+	--border: #e5e1d9;
+	--accent: #c94436;
+	--accent-fg: #ffffff;
+
+	--font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+	--font-mono: ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace;
+
+	--radius: 12px;
+	--content: 720px;
+	--wide: 1120px;
+	--gutter: 16px;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--fg);
+	font-family: var(--font-sans);
+	font-size: 17px;
+	line-height: 1.6;
+}
+
+img,
+video,
+svg {
+	max-width: 100%;
+	height: auto;
+}
+
+a {
+	color: inherit;
+	text-decoration-color: var(--accent);
+	text-underline-offset: 3px;
+}
+
+a:hover {
+	color: var(--accent);
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+h1,
+h2,
+h3 {
+	line-height: 1.2;
+	letter-spacing: -0.01em;
+}
+
+.container {
+	width: min(100% - 2 * var(--gutter), var(--wide));
+	margin-inline: auto;
+}
+
+.content {
+	width: min(100% - 2 * var(--gutter), var(--content));
+	margin-inline: auto;
+}
+
+.eyebrow {
+	font-family: var(--font-mono);
+	font-size: 13px;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+/* Long-form project text */
+.prose > * + * {
+	margin-top: 1em;
+}
+
+.prose h2 {
+	margin-top: 2.2em;
+	font-size: 1.4rem;
+}
+
+.prose h3 {
+	margin-top: 1.8em;
+	font-size: 1.1rem;
+}
+
+.prose p,
+.prose li {
+	color: var(--fg);
+}

@@ -1,0 +1,50 @@
+---
+title: Social Robo-Shelf
+summary: A socially interactive robotic bookshelf that gets children reading physical books.
+date: 2020-06-01
+endDate: 2022-12-01
+tags: [hardware, hri]
+featured: true
+order: 1
+context: SUTD Undergraduate Research Opportunities Programme
+role: Designed and built all hardware and software; wrote the IRB study proposal
+cover: ./cover.png
+coverAlt: Elephant-shaped robotic bookshelf with a grey body, red top and a segmented trunk
+hero: ./hero.png
+heroAlt: Render of the elephant-shaped robotic bookshelf with its continuum-robot trunk
+links:
+  paper: https://www.researchgate.net/publication/375626848_Reading_or_iPad_Gaming_Investigating_Socially_Interactive_Robotic_Bookshelf_Proactively_Engages_Children_in_Reading_Physical_Books
+  video: https://www.youtube.com/watch?v=cmLbnvv-03Y
+---
+
+import YouTube from '../../../components/mdx/YouTube.astro';
+import Gallery from '../../../components/mdx/Gallery.astro';
+import internals from './internals.jpg';
+import design from './design-process.jpg';
+import trunk from './continuum-trunk.png';
+
+## Overview
+
+This project began at a design workshop for a children's library, where we came up with the idea of an interactive robotic bookshelf that engages children and encourages them to read. It grew into a formal study: we built a prototype bookshelf and tested how it affected children's reading behaviour, comparing it against the pull of an iPad.
+
+The bookshelf is shaped like an elephant. Its trunk is a **continuum mechanism**, a flexible, cable-driven robot that bends smoothly like a real trunk, and the whole robot can be teleoperated to interact with children.
+
+## What I did
+
+- Designed and built **all of the robot's hardware and software** single-handedly: the frame, the continuum trunk, electronics and remote-control system.
+- Planned and wrote the initial **study proposal**, which was approved by the university's Institutional Review Board (IRB).
+- The study was published at **IEEE RO-MAN 2023**.
+
+## The final experiment
+
+<YouTube id="cmLbnvv-03Y" title="Social Robo-Shelf: final experiment" />
+
+## Gallery
+
+<Gallery
+  items={[
+    { src: internals, alt: 'The bookshelf frame and electronics without its outer shell', caption: 'Internals: aluminium frame, drive base and electronics' },
+    { src: design, alt: 'Design progression from workshop prototype through CAD to the built robot', caption: 'From workshop concept to final design' },
+    { src: trunk, alt: 'Close-up of the white segmented continuum-robot trunk', caption: 'The continuum-mechanism trunk' },
+  ]}
+/>

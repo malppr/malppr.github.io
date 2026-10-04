@@ -1,0 +1,40 @@
+---
+title: LEAP TTS
+summary: Zero-shot text-to-speech that clones a voice from a 3-second sample, combining an LLM with diffusion.
+date: 2023-06-01
+endDate: 2024-12-01
+tags: [ai]
+featured: true
+order: 3
+context: DeCLaRe Lab, SUTD
+role: Co-designed the model and led the implementation; built the training and evaluation pipeline
+cover: ./cover.jpg
+coverAlt: Illustration of a robot head beside a speech bubble about text-to-speech
+---
+
+import AudioCompare from '../../../components/mdx/AudioCompare.astro';
+import groundTruth from './ground-truth.wav';
+import prediction from './prediction.wav';
+
+## Overview
+
+At the Deep Cognition and Language Research (DeCLaRe) Lab, I worked on a text-to-speech model for **zero-shot** scenarios: given just a 3-second recording of a new speaker, it generates high-quality speech in that speaker's voice.
+
+## How it works
+
+The architecture uses a large language model (FLAN-T5) that takes words and phonemes as input, and produces speech through **reverse diffusion**: starting from noise and iteratively refining it into a speech representation, conditioned on the text and the short voice prompt.
+
+## What I did
+
+- Co-designed the model and led its implementation.
+- Built the full training and evaluation pipeline in **PyTorch** and **DeepSpeed**, training on 8× A100 GPUs.
+- Explored alternative architectures, including GANs, VAEs and Mixture-of-Experts models.
+
+## Samples
+
+<AudioCompare
+  items={[
+    { label: 'Ground truth', src: groundTruth },
+    { label: 'Model prediction', src: prediction },
+  ]}
+/>

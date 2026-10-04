@@ -1,0 +1,42 @@
+---
+title: Golden Grips
+summary: An ergonomic, elderly-friendly phone grip adapter.
+date: 2022-01-01
+tags: [design]
+tier: archive
+order: 11
+context: SUTD 30.120 Design & Manufacturing
+cover: ./cover.jpg
+coverAlt: A hand holding a phone fitted with the grip adapter and strap
+hero: ./hero.jpg
+heroAlt: Two photos of people holding phones using the Golden Grips adapter and strap
+---
+
+import Gallery from '../../../components/mdx/Gallery.astro';
+import complete from './complete.png';
+import grips from './grip-iterations.png';
+import plates from './baseplate-iterations.png';
+import assembly from './assembly.png';
+import testing from './testing.png';
+
+## Overview
+
+A phone adapter that helps elderly users hold and use their phones more easily. It has an ergonomic grip and an attachable baseplate with loops for an adjustable strap, so the phone can be secured to the hand.
+
+The brief was a functional souvenir for the school, so scalability and cost mattered. The design uses accessible materials, mainly 3D-printed parts and an inexpensive strap.
+
+## Process
+
+3D printing drove a fast, iterative design process: we tested and refined the grip and baseplate over several iterations for comfort. We also evaluated scalable manufacturing methods so the design could be mass-produced efficiently.
+
+## Gallery
+
+<Gallery
+  items={[
+    { src: complete, alt: 'The finished grip adapter attached to the back of a phone', caption: 'Final product' },
+    { src: grips, alt: 'Flow of grip iterations refined through design-for-assembly reviews', caption: 'Grip iterations' },
+    { src: plates, alt: 'Five baseplate iterations in different colours', caption: 'Baseplate iterations' },
+    { src: assembly, alt: 'Four steps of assembling the strap, baseplate and grip', caption: 'Assembly' },
+    { src: testing, alt: 'Three photos of users testing the grip', caption: 'User testing' },
+  ]}
+/>

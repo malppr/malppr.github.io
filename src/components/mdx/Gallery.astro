@@ -1,0 +1,137 @@
+---
+// Thumbnail grid. Clicking opens a full-size view in a native <dialog>;
+// without JS the thumbnail links straight to the full image.
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Item {
+	src: ImageMetadata;
+	alt: string;
+	caption?: string;
+}
+
+interface Props {
+	items: Item[];
+}
+
+const { items } = Astro.props;
+const full = await Promise.all(items.map((it) => getImage({ src: it.src, width: Math.min(it.src.width, 1800) })));
+---
+
+<div class="gallery" data-gallery>
+	{
+		items.map((it, i) => (
+			<figure>
+				<a href={full[i].src} data-full={full[i].src} data-alt={it.alt} data-caption={it.caption ?? ''}>
+					<Image src={it.src} alt={it.alt} width={480} />
+				</a>
+				{it.caption && <figcaption>{it.caption}</figcaption>}
+			</figure>
+		))
+	}
+	<dialog class="lightbox" aria-label="Image viewer">
+		<form method="dialog">
+			<button class="close" aria-label="Close">×</button>
+		</form>
+		<p class="lightbox-caption"></p>
+	</dialog>
+</div>
+
+<script>
+	for (const gallery of document.querySelectorAll<HTMLElement>('[data-gallery]')) {
+		const dialog = gallery.querySelector('dialog')!;
+		const caption = dialog.querySelector('.lightbox-caption')!;
+		const img = document.createElement('img');
+		caption.before(img);
+		gallery.addEventListener('click', (e) => {
+			const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-full]');
+			if (!link) return;
+			e.preventDefault();
+			img.src = link.dataset.full!;
+			img.alt = link.dataset.alt!;
+			caption.textContent = link.dataset.caption || link.dataset.alt!;
+			dialog.showModal();
+		});
+		dialog.addEventListener('click', (e) => {
+			if (e.target === dialog) dialog.close();
+		});
+	}
+</script>
+
+<style>
+	.gallery {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+		gap: 12px;
+		margin: 1.5em 0;
+	}
+
+	figure {
+		margin: 0;
+	}
+
+	figure a {
+		display: block;
+		aspect-ratio: 4 / 3;
+		overflow: hidden;
+		border-radius: 8px;
+		background: var(--surface);
+		border: 1px solid var(--border);
+	}
+
+	figure :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.25s ease;
+	}
+
+	figure a:hover :global(img) {
+		transform: scale(1.04);
+	}
+
+	figcaption {
+		margin-top: 6px;
+		font-size: 13px;
+		color: var(--muted);
+	}
+
+	.lightbox {
+		max-width: min(96vw, 1400px);
+		max-height: 94vh;
+		padding: 16px;
+		border: none;
+		border-radius: var(--radius);
+		background: var(--surface);
+	}
+
+	.lightbox::backdrop {
+		background: rgb(0 0 0 / 0.75);
+	}
+
+	.lightbox img {
+		display: block;
+		max-height: 80vh;
+		width: auto;
+		margin-inline: auto;
+	}
+
+	.lightbox-caption {
+		margin: 10px 0 0;
+		font-size: 14px;
+		color: var(--muted);
+		text-align: center;
+	}
+
+	.close {
+		position: absolute;
+		top: 6px;
+		right: 10px;
+		font-size: 26px;
+		line-height: 1;
+		background: none;
+		border: none;
+		color: var(--fg);
+		cursor: pointer;
+	}
+</style>

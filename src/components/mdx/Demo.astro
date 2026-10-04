@@ -1,0 +1,38 @@
+---
+// Slot for interactive demos. W1: placeholder card. W3/W6: mounts the real module.
+import Mascot from '../Mascot.astro';
+
+interface Props {
+	name: 'maze' | 'pusht';
+}
+
+const { name } = Astro.props;
+const href = `/play/${name}`;
+---
+
+<div class="demo" data-demo={name}>
+	<Mascot size={96} />
+	<div>
+		<strong>Interactive demo</strong>
+		<p>The live demo is being built. It will run right here in your browser.</p>
+		<a href={href}>Open the playground →</a>
+	</div>
+</div>
+
+<style>
+	.demo {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+		margin: 2em 0;
+		padding: 20px;
+		border: 1px dashed var(--border);
+		border-radius: var(--radius);
+		background: var(--surface);
+	}
+
+	p {
+		margin: 4px 0 8px;
+		color: var(--muted);
+	}
+</style>

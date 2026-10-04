@@ -1,0 +1,18 @@
+# My own name is matched by `ME` in src/lib/format.ts and bolded when rendered.
+- id: tts-petl-2024
+  title: Leveraging Parameter-Efficient Transfer Learning for Multi-Lingual Text-to-Speech Adaptation
+  authors: [Y. Li, A. Mehrish, B. Chew, B. Cheng, S. Poria]
+  venue: arXiv
+  year: 2024
+  links:
+    arxiv: https://arxiv.org/abs/2406.17257
+  project: hyperx-tts
+
+- id: roman-2023
+  title: "Reading or iPad Gaming? Investigating Socially Interactive Robotic Bookshelf Proactively Engages Children in Reading Physical Books"
+  authors: [Z. Jiang, H. P. Koh, B. L. Chew, J. Chen, A. Z. H. Yee, Y. Wang]
+  venue: IEEE RO-MAN
+  year: 2023
+  links:
+    paper: https://www.researchgate.net/publication/375626848_Reading_or_iPad_Gaming_Investigating_Socially_Interactive_Robotic_Bookshelf_Proactively_Engages_Children_in_Reading_Physical_Books
+  project: robotic-bookshelf

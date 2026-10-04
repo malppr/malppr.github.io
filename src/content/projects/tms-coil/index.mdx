@@ -1,0 +1,36 @@
+---
+title: TMS Coil Research
+summary: A metasurface-based transcranial magnetic stimulation coil for more focused brain stimulation.
+date: 2021-01-01
+tags: [hardware]
+tier: archive
+order: 12
+context: SUTD research project
+cover: ./cover.png
+coverAlt: Simulated electric-field maps comparing a figure-8 coil and the proposed surface coil
+hero: ./hero.png
+heroAlt: Diagram of the proposed surface coil formed by two overlapping metasurfaces, projecting virtual figure-8 loops into the head
+---
+
+import Gallery from '../../../components/mdx/Gallery.astro';
+import closeup from './coil-closeup.png';
+import readings from './field-readings.png';
+import setup from './test-setup.jpg';
+
+## Overview
+
+Transcranial Magnetic Stimulation (TMS) is a non-invasive treatment that stimulates the brain to treat conditions such as depression.
+
+This project developed a **static negative-permeability metasurface** coil that projects virtual figure-8 loops below the surface of the head, giving a more focused point of stimulation. We hand-wound prototype coils and tested them with a high-voltage setup and electric-field detectors, including through a pig's head, to validate the design.
+
+The research contributed to a PhD thesis but, due to unforeseen delays, was not published.
+
+## Gallery
+
+<Gallery
+  items={[
+    { src: closeup, alt: 'Hand-wound copper coil prototype seen from above', caption: 'Coil prototype' },
+    { src: readings, alt: 'Measured magnetic field maps for the proposed coil and a figure-8 coil', caption: 'Field measurements' },
+    { src: setup, alt: 'Lab bench with oscilloscope, capacitor bank, power source and coil under test', caption: 'High-voltage test setup' },
+  ]}
+/>

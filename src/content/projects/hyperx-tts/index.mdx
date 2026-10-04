@@ -1,0 +1,29 @@
+---
+title: HyperX TTS
+summary: Parameter-efficient adaptation of text-to-speech to new languages, matching full fine-tuning with ~2.5% of the parameters.
+date: 2024-01-01
+endDate: 2024-06-30
+tags: [ai]
+order: 4
+context: DeCLaRe Lab, SUTD
+role: Multilingual phoneme/tokenizer adaptation and data pipeline; third author
+cover: ./cover.jpg
+coverAlt: Abstract illustration of a glowing sphere surrounded by speech bubbles
+hero: ./hero.png
+heroAlt: Architecture diagram of SpeechT5 with adapter layers and a hypernetwork that generates adapter parameters
+links:
+  arxiv: https://arxiv.org/abs/2406.17257
+---
+
+## Overview
+
+Every language has its own phonetic system and prosody, which makes it hard to build one text-to-speech (TTS) model that works well across many languages. Fine-tuning the whole model for each new language is expensive.
+
+This project brings **parameter-efficient transfer learning** (PETL) into TTS. Instead of updating the whole model, we insert small **adapters** into a SpeechT5 backbone, and use a **hypernetwork** to generate the adapter parameters conditioned on the speaker, the language and the layer. This matched full fine-tuning while training only about 2.5% of the parameters.
+
+## What I did
+
+- Modified the model to accept new phonemes from different languages (multilingual tokenizer adaptation).
+- Built the data-processing pipeline for the CSS10 dataset and fine-tuned the model on several languages.
+
+The paper is available on [arXiv](https://arxiv.org/abs/2406.17257).

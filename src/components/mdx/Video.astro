@@ -1,0 +1,51 @@
+---
+// Short local clip. Loops muted like a GIF; shows controls when the visitor
+// prefers reduced motion (no autoplay).
+interface Props {
+	src: string;
+	poster?: string;
+	caption?: string;
+	label: string;
+}
+
+const { src, poster, caption, label } = Astro.props;
+---
+
+<figure class="video">
+	<video src={src} poster={poster} aria-label={label} muted loop playsinline preload="metadata" data-autoplay></video>
+	{caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<script>
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const io = new IntersectionObserver((entries) => {
+		for (const { target, isIntersecting } of entries) {
+			const v = target as HTMLVideoElement;
+			if (isIntersecting) v.play().catch(() => (v.controls = true));
+			else v.pause();
+		}
+	});
+	for (const v of document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]')) {
+		if (reduce) v.controls = true;
+		else io.observe(v);
+	}
+</script>
+
+<style>
+	.video {
+		margin: 2em 0;
+	}
+
+	video {
+		display: block;
+		width: 100%;
+		border-radius: var(--radius);
+		background: #000;
+	}
+
+	figcaption {
+		margin-top: 8px;
+		font-size: 14px;
+		color: var(--muted);
+	}
+</style>

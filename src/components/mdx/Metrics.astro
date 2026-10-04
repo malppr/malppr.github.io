@@ -1,0 +1,81 @@
+---
+// Results table. `highlight` bolds the row with that first-column value.
+interface Props {
+	columns: string[];
+	rows: (string | number)[][];
+	caption?: string;
+	highlight?: string;
+}
+
+const { columns, rows, caption, highlight } = Astro.props;
+---
+
+<figure class="metrics">
+	<div class="scroll">
+		<table>
+			<thead>
+				<tr>{columns.map((c) => <th scope="col">{c}</th>)}</tr>
+			</thead>
+			<tbody>
+				{
+					rows.map((r) => (
+						<tr class:list={{ hl: highlight !== undefined && String(r[0]) === highlight }}>
+							{r.map((cell, i) => (i === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>))}
+						</tr>
+					))
+				}
+			</tbody>
+		</table>
+	</div>
+	{caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+	.metrics {
+		margin: 2em 0;
+	}
+
+	.scroll {
+		overflow-x: auto;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 15px;
+	}
+
+	th,
+	td {
+		padding: 8px 12px;
+		border-bottom: 1px solid var(--border);
+		text-align: left;
+	}
+
+	td {
+		font-family: var(--font-mono);
+		font-variant-numeric: tabular-nums;
+	}
+
+	thead th {
+		font-size: 13px;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: var(--muted);
+	}
+
+	tbody th {
+		font-weight: 500;
+	}
+
+	.hl th,
+	.hl td {
+		font-weight: 700;
+	}
+
+	figcaption {
+		margin-top: 8px;
+		font-size: 14px;
+		color: var(--muted);
+	}
+</style>

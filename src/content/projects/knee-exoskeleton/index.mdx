@@ -1,0 +1,42 @@
+---
+title: Knee Exoskeleton
+summary: A pneumatically powered exoskeleton that assists the knees while walking.
+date: 2022-01-01
+tags: [hardware]
+order: 5
+context: SUTD 30.007 Engineering Design Innovation
+role: Team lead; designed the braces and pneumatic pouches and oversaw integration
+cover: ./cover.png
+coverAlt: Render of a figure wearing the knee exoskeleton with a waist bag
+hero: ./hero.jpg
+heroAlt: The knee exoskeleton worn on both legs, with blue pneumatic pouches and grey straps
+---
+
+import Gallery from '../../../components/mdx/Gallery.astro';
+import components from './components.jpeg';
+import sidebrace from './side-brace.jpg';
+import poster from './poster.jpg';
+
+## Overview
+
+This knee exoskeleton uses **pneumatic actuators** to assist with walking. The actuators are pouches of a novel design that contract when inflated, powered by small air compressors carried in a waist bag.
+
+## How it works
+
+An Arduino controls a set of air valves that direct the airflow. A flex sensor at the knee detects the wearer's movement and triggers the actuators to provide assistance at the right moment.
+
+For comfort and support, the knee straps are made from stretchable fabric using fabric printing, with a 3D-printed brace for structure.
+
+## What I did
+
+I led the team, designed the braces and the pneumatic pouches, and oversaw the integration of all the components.
+
+## Gallery
+
+<Gallery
+  items={[
+    { src: components, alt: 'All exoskeleton components laid out on a cutting mat: straps, pouches, tubing and waist bag', caption: 'All the components' },
+    { src: sidebrace, alt: 'Render of the 3D-printed side brace with straps', caption: 'Side brace design' },
+    { src: poster, alt: 'Project poster describing the problem, solution and design of the exoskeleton', caption: 'Project poster' },
+  ]}
+/>

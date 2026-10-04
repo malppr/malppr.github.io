@@ -1,0 +1,65 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatDate, isVisible } from '../../lib/format';
+
+const notes = (await getCollection('lab', isVisible)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title="Lab notes" description="Dev log for ongoing projects: experiments, results and things that didn't work.">
+	<div class="content">
+		<h1>Lab notes</h1>
+		<p class="lede">A running log of ongoing projects: experiments, results, and the things that didn't work.</p>
+
+		{
+			notes.length === 0 ? (
+				<p class="empty">No notes yet. The first ones will come from the Maze Bot project.</p>
+			) : (
+				<ul class="notes">
+					{notes.map((n) => (
+						<li>
+							<time datetime={n.data.date.toISOString()}>{formatDate(n.data.date)}</time>
+							<a href={`/lab/${n.id}`}>{n.data.title}</a>
+							<p>{n.data.summary}</p>
+						</li>
+					))}
+				</ul>
+			)
+		}
+	</div>
+</BaseLayout>
+
+<style>
+	.lede,
+	.empty {
+		color: var(--muted);
+	}
+
+	.notes {
+		list-style: none;
+		padding: 0;
+		margin: 32px 0 0;
+	}
+
+	li {
+		padding: 16px 0;
+		border-bottom: 1px solid var(--border);
+	}
+
+	time {
+		display: block;
+		font-family: var(--font-mono);
+		font-size: 13px;
+		color: var(--muted);
+	}
+
+	li a {
+		font-weight: 600;
+		font-size: 1.1rem;
+	}
+
+	li p {
+		margin: 4px 0 0;
+		color: var(--muted);
+	}
+</style>
