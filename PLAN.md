@@ -145,7 +145,7 @@ Nothing goes live without Bryan reviewing it locally first.
 | W0 | Install Node LTS; new branch `overhaul`; Astro scaffold; Actions deploy workflow (triggers on `main` only — not active until W5) | `npm run dev` and `npm run preview` work locally |
 | W1 | Content collections + schemas; layouts; MDX components; migrate all existing projects & images | All old projects render at `/projects/[slug]`; `astro check` clean |
 | W2 | Design system: tokens, type, dark mode, cards, filterable grid, archive list, publications | Screenshots light/dark, mobile/desktop reviewed by Bryan |
-| W3 | Mascot stub + `/play/maze` placeholder + demo contract wiring; 404 page | Stub roams hero avoiding cards; click → `/play/maze` |
+| W3 | Playground page + demo contract wiring (`src/demos/maze.ts` → stub with same API); 404 page | Stub demo runs lazily on `/playground`; 404 works in build |
 | W4 | Lab notes section; SEO/OG; sitemap; image/video optimization pass | Lighthouse budget met; link previews render |
 | W5 | Local sign-off on `npm run preview` + pre-deploy checks; then cut over: Pages source → Actions, merge `overhaul` → `main`; delete old React app | Bryan approves local preview; live site serves new build; all URLs checked |
 | W6 | Swap stub for real `maze-bot` package once v0.1 is tagged | Mascot driven by trained policy |
@@ -174,3 +174,4 @@ Nothing goes live without Bryan reviewing it locally first.
 - BeetleBot showcase link removed (SUTD page gone, not archived).
 - **2026-10-04 — Mascot is named Wheely.** Home hero: drive-in + "Hi! I'm Wheely 👋" bubble on fresh arrival/refresh (skipped when returning from another page on the site), static under reduced motion. Playground demo is titled "Wheely's maze" (repo can stay `maze-bot`).
 - **2026-10-04 — No CV on the site.** Bryan decided not to publish the résumé PDF (it was briefly added and removed before any push, so it is not in git history).
+- **2026-10-04 — No roaming mascot in the hero.** Wheely parks after the intro (roaming would distract from the headline). Roaming lives in the Playground demo instead; `mountMascot` from the contract is no longer needed. Swap point for the real demo: `src/demos/maze.ts` (+ set `IS_PREVIEW = false`).
