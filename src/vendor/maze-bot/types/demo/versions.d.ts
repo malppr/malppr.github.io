@@ -6,6 +6,7 @@ export interface Version {
     load?: () => Promise<{
         default: unknown;
     }>;
+    hidden?: boolean;
 }
 export declare const VERSIONS: Version[];
 export declare const DEFAULT_VERSION = "final";
