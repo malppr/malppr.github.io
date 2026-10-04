@@ -26,9 +26,31 @@ Wheely, the mascot of this site, learned to drive from A to B with reinforcement
 
 Wheely observes five distance rays (−60° to +60°), the direction and distance to B, and its previous wheel command. It outputs the left and right wheel speeds 15 times a second. The network is 10 → 12 → 12 → 4 → 2.
 
-I trained it with PPO in a Python simulator on randomly generated layouts (open fields, posts, scribbles and mazes), starting with the easy ones. The reward is progress along the shortest path to B, with small costs for time and wall contact and a bonus for reaching B.
+The simulator is written in Python with NumPy: a circular differential-drive robot (radius 0.3, top speed 1.2 units/s), walls stored as capsules, physics at 30 Hz and the policy at 15 Hz. Training layouts are generated randomly in five categories: open fields, posts and bars, freehand scribbles, wobbly mazes, and mixes of these. A sixth category, traps (U-shaped pockets facing the start), is used only for testing.
 
-Each version was evaluated on 1,000 unseen layouts per category and compared with a heuristic policy (By-the-Book) that uses the same inputs.
+## Policy and training
+
+The actor is a Gaussian policy. The network outputs the mean wheel commands, and during training actions are sampled around that mean with a learned, state-independent standard deviation. At test time and in the browser it acts deterministically, using the mean clipped to [−1, 1]. The critic is a separate 64-64 tanh network that also receives inputs the actor never sees: the shortest-path distance to B, eight rays covering all directions, and the time left. This asymmetric actor-critic setup gives the critic better value estimates without changing what is deployed.
+
+The reward per policy step is the progress along the shortest path to B, measured on a distance field computed with Dijkstra's algorithm over a grid inflated by the robot radius. There is a cost of 0.01 per step, 0.05 per step in wall contact, and +10 for reaching B. An episode ends at B, or after three times the shortest-path driving time plus 10 s.
+
+Training uses PPO from Stable-Baselines3 with 96 parallel environments:
+
+<Metrics
+	columns={['Setting', 'Value']}
+	rows={[
+		['Rollout per update', '128 steps × 96 environments'],
+		['Minibatch, epochs', '4,096, 10'],
+		['Learning rate', '3 × 10⁻⁴'],
+		['Discount γ, GAE λ', '0.99, 0.95'],
+		['Clip range, entropy coefficient', '0.2, 0'],
+		['Exploration std cap', 'annealed 0.6 → 0.1 over 6M steps'],
+	]}
+/>
+
+The cap on the exploration noise means the final policy cannot rely on noise to get unstuck. A five-stage curriculum moves from open fields to obstacles, scribbles, mazes and finally a mix, advancing when the success rate over the last 1,000 episodes reaches 80%. Every 1M steps the deterministic policy is evaluated on 100 validation layouts per category; training keeps the best checkpoint and stops after four evaluations in the final stage without improvement. The final run stopped at 12M of a 30M-step budget, with the best checkpoint at 6M, after about 32 minutes on an 8-core CPU.
+
+Each version was then tested on a separate set of 1,000 unseen layouts per category and compared with a heuristic policy (By-the-Book) that uses the same inputs.
 
 ## Failures
 

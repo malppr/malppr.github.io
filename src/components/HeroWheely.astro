@@ -72,7 +72,7 @@ import Mascot from './Mascot.astro';
 	.bubble {
 		position: absolute;
 		top: 0;
-		right: 62%;
+		left: 48%;
 		z-index: 1;
 		margin: 0;
 		padding: 10px 16px;
@@ -82,8 +82,8 @@ import Mascot from './Mascot.astro';
 		box-shadow: var(--shadow);
 		font-size: 15px;
 		white-space: nowrap;
-		transform-origin: 100% 100%;
-		/* Hidden by default; shown briefly during the intro, and on hover/focus. */
+		transform-origin: 0 100%;
+		/* Hidden by default: "Hi" during the intro, "Play with me" on hover/focus and from time to time. */
 		opacity: 0;
 		transform: scale(0.85);
 		pointer-events: none;
@@ -92,10 +92,10 @@ import Mascot from './Mascot.astro';
 			transform 0.2s ease;
 	}
 
+	/* Hovering Wheely swaps any "Hi" for "Play with me". */
 	:global(html) .wheely:is(:hover, :focus-within) .bubble.hi {
 		animation: none;
-		opacity: 1;
-		transform: scale(1);
+		opacity: 0;
 	}
 
 	/* "Play with me": hidden (and not focusable) until the script shows it. */
@@ -110,7 +110,8 @@ import Mascot from './Mascot.astro';
 			visibility 0s 0.2s;
 	}
 
-	.play.show {
+	.play.show,
+	:global(html) .wheely:is(:hover, :focus-within) .play {
 		opacity: 1;
 		transform: scale(1);
 		visibility: visible;
@@ -123,21 +124,16 @@ import Mascot from './Mascot.astro';
 		text-decoration: underline;
 	}
 
-	/* Hovering Wheely shows "Hi" instead. */
-	:global(html) .wheely:is(:hover, :focus-within) .play:not(:hover, :focus) {
-		opacity: 0;
-	}
-
-	/* Tail pointing down-right towards Wheely. */
+	/* Tail pointing down-left towards Wheely. */
 	.bubble::after {
 		content: '';
 		position: absolute;
-		right: 18px;
+		left: 18px;
 		bottom: -7px;
 		width: 12px;
 		height: 12px;
 		background: var(--surface);
-		border-right: 1px solid var(--border);
+		border-left: 1px solid var(--border);
 		border-bottom: 1px solid var(--border);
 		transform: rotate(45deg);
 	}
@@ -220,24 +216,19 @@ import Mascot from './Mascot.astro';
 		}
 	}
 
-	/* When Wheely wraps under the text it is centred — bubble goes to its right. */
+	/* Side-by-side hero without page margin to spare: Wheely sits at the edge, so the bubble starts further
+	   left to stay on screen (it still opens to the right). */
+	@media (min-width: 761px) and (max-width: 1160px) {
+		.bubble {
+			left: 20%;
+		}
+	}
+
+	/* When Wheely wraps under the text it is centred. */
 	/* Hero text is flex-basis 460px + 40px gap + Wheely 220px, so it wraps below ~752px. */
 	@media (max-width: 760px) {
 		.wheely {
 			margin-inline: auto;
-		}
-
-		.bubble {
-			right: auto;
-			left: 48%;
-			transform-origin: 0 100%;
-		}
-
-		.bubble::after {
-			right: auto;
-			left: 18px;
-			border-right: none;
-			border-left: 1px solid var(--border);
 		}
 	}
 </style>
