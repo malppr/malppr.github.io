@@ -1,0 +1,159 @@
+---
+// Wheely, the site mascot, in the home hero: drives in on first visit per session,
+// brakes with a wobble, then says hi. Static (parked, bubble shown) under reduced motion.
+import Mascot from './Mascot.astro';
+---
+
+<script is:inline>
+	// Only play the drive-in once per browser session.
+	try {
+		if (sessionStorage.getItem('wheely-intro')) document.documentElement.classList.add('wheely-seen');
+		sessionStorage.setItem('wheely-intro', '1');
+	} catch {}
+</script>
+
+<div class="wheely">
+	<p class="bubble">Hi! I'm <strong>Wheely</strong> 👋</p>
+	<div class="drive">
+		<span class="speed" aria-hidden="true"></span>
+		<a href="/playground" aria-label="Wheely, the site mascot. Visit the playground">
+			<Mascot size={220} />
+		</a>
+	</div>
+</div>
+
+<style>
+	.wheely {
+		position: relative;
+		padding-top: 36px;
+	}
+
+	.drive {
+		position: relative;
+	}
+
+	.drive a {
+		display: block;
+		line-height: 0;
+		transition: transform 0.2s ease;
+	}
+
+	.drive a:hover {
+		transform: rotate(-3deg);
+	}
+
+	.bubble {
+		position: absolute;
+		top: 0;
+		right: 62%;
+		z-index: 1;
+		margin: 0;
+		padding: 10px 16px;
+		border: 1px solid var(--border);
+		border-radius: 18px;
+		background: var(--surface);
+		box-shadow: var(--shadow);
+		font-size: 15px;
+		white-space: nowrap;
+		transform-origin: 100% 100%;
+	}
+
+	/* Tail pointing down-right towards Wheely. */
+	.bubble::after {
+		content: '';
+		position: absolute;
+		right: 18px;
+		bottom: -7px;
+		width: 12px;
+		height: 12px;
+		background: var(--surface);
+		border-right: 1px solid var(--border);
+		border-bottom: 1px solid var(--border);
+		transform: rotate(45deg);
+	}
+
+	.speed {
+		position: absolute;
+		top: 38%;
+		left: 100%;
+		width: 140px;
+		height: 60px;
+		opacity: 0;
+		background:
+			linear-gradient(var(--border), var(--border)) 0 0 / 100% 4px no-repeat,
+			linear-gradient(var(--border), var(--border)) 30px 26px / 80% 4px no-repeat,
+			linear-gradient(var(--border), var(--border)) 10px 52px / 90% 4px no-repeat;
+		border-radius: 2px;
+		pointer-events: none;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		:global(html:not(.wheely-seen)) .drive {
+			animation: wheely-drive 1.25s cubic-bezier(0.22, 0.9, 0.3, 1) both;
+		}
+
+		:global(html:not(.wheely-seen)) .speed {
+			animation: wheely-speed 1.25s ease-out both;
+		}
+
+		:global(html:not(.wheely-seen)) .bubble {
+			animation: wheely-pop 0.45s 1.2s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+		}
+	}
+
+	@keyframes wheely-drive {
+		0% {
+			transform: translateX(110vw) rotate(6deg);
+		}
+		62% {
+			transform: translateX(-14px) rotate(-10deg);
+		}
+		78% {
+			transform: translateX(5px) rotate(4deg);
+		}
+		90% {
+			transform: translateX(-2px) rotate(-1.5deg);
+		}
+		100% {
+			transform: translateX(0) rotate(0);
+		}
+	}
+
+	@keyframes wheely-speed {
+		0%,
+		30% {
+			opacity: 1;
+		}
+		65%,
+		100% {
+			opacity: 0;
+		}
+	}
+
+	@keyframes wheely-pop {
+		0% {
+			opacity: 0;
+			transform: scale(0.4);
+		}
+		100% {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
+	/* When Wheely wraps under the text (narrow screens), it sits on the left — bubble goes to its right. */
+	@media (max-width: 900px) {
+		.bubble {
+			right: auto;
+			left: 58%;
+			transform-origin: 0 100%;
+		}
+
+		.bubble::after {
+			right: auto;
+			left: 18px;
+			border-right: none;
+			border-left: 1px solid var(--border);
+		}
+	}
+</style>

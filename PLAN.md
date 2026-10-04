@@ -172,3 +172,4 @@ Nothing goes live without Bryan reviewing it locally first.
 - **2026-10-04 — Positioning:** AI and robotics weighted equally; `areaOf(tags)` in `src/lib/format.ts` maps tags → AI / Robotics / Design.
 - **2026-10-04 — Fonts:** Inter (variable) + JetBrains Mono, self-hosted via Fontsource. Light default, dark via OS or toggle.
 - BeetleBot showcase link removed (SUTD page gone, not archived).
+- **2026-10-04 — Mascot is named Wheely.** Home hero: drive-in + "Hi! I'm Wheely 👋" bubble, once per session, static under reduced motion. Playground demo is titled "Wheely's maze" (repo can stay `maze-bot`).

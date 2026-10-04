@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Mascot from '../components/Mascot.astro';
+import HeroWheely from '../components/HeroWheely.astro';
 import ProjectRow from '../components/ProjectRow.astro';
 import PublicationList from '../components/PublicationList.astro';
 import { isVisible, sortProjects, yearRange } from '../lib/format';
@@ -26,9 +27,7 @@ const archive = projects.filter((p) => p.data.tier === 'archive');
 				<a href="mailto:bryanchewlj@gmail.com">Email</a>
 			</p>
 		</div>
-		<a class="hero-bot" href="/playground" aria-label="Meet Maze Bot in the playground">
-			<Mascot size={220} />
-		</a>
+		<HeroWheely />
 	</section>
 
 	<section id="work" class="container section">
@@ -49,9 +48,9 @@ const archive = projects.filter((p) => p.data.tier === 'archive');
 		<div class="play">
 			<div>
 				<p class="eyebrow">Playground</p>
-				<h2>Meet Maze Bot</h2>
+				<h2>Wheely's maze</h2>
 				<p>
-					A tiny robot that learns to navigate with reinforcement learning, running live in your browser. Draw a maze and
+					Wheely learns to navigate with reinforcement learning, running live in your browser. Draw a maze and
 					watch its neurons fire.
 				</p>
 				<a class="btn" href="/playground">Open the playground →</a>
@@ -98,6 +97,7 @@ const archive = projects.filter((p) => p.data.tier === 'archive');
 
 <style>
 	.hero {
+		overflow-x: clip;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -129,15 +129,6 @@ const archive = projects.filter((p) => p.data.tier === 'archive');
 		gap: 22px;
 		margin-top: 22px;
 		font-weight: 500;
-	}
-
-	.hero-bot {
-		line-height: 0;
-		transition: transform 0.2s ease;
-	}
-
-	.hero-bot:hover {
-		transform: rotate(-3deg);
 	}
 
 	.section {
