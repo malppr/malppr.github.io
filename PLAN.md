@@ -96,7 +96,8 @@ Text gets a light edit pass (typos: "a Ergonomic", "Adaption", "continum").
 
 ## 8. Demo integration contract (shared with maze-bot)
 
-The site does not contain demo logic. It consumes a versioned package:
+The site does not contain demo logic. It consumes a versioned package (TypeScript source, compiled by the
+site's Vite; the package ships only `web/src`, the presets and the playable weights, ~39 KB):
 
 ```jsonc
 // package.json
@@ -104,22 +105,22 @@ The site does not contain demo logic. It consumes a versioned package:
 ```
 
 ```ts
-import { mountMazeDemo, mountMascot } from "maze-bot/web";
+import { mountMazeDemo } from "maze-bot/web";   // re-exported by src/demos/maze.ts (the only import point)
 
 mountMazeDemo(el: HTMLElement, opts?: {
-  mode?: "obstacles" | "draw";
-  showNetwork?: boolean;          // neuron panel
+  mode?: "obstacles" | "draw";    // presets (default) or empty arena with the pen selected
+  showNetwork?: boolean;          // brain panel (default true)
+  version?: string;               // starting Wheely: heuristic | v3-rookie | v4-owl-eyes | final (default)
+  sprite?: string;                // mascot sprite URL (site asset src/assets/mascot/mascot-top.svg; not in the MIT package)
 }): { destroy(): void };
-
-mountMascot(el: HTMLElement, opts: {
-  obstacles: () => DOMRect[];     // page elements to avoid, re-queried on resize
-  onClick?: () => void;           // → navigate to /play/maze
-}): { destroy(): void; pause(): void; resume(): void };
 ```
 
-- Theme: demo reads CSS custom properties (`--fg`, `--bg`, `--accent`, `--muted`) from its container — no theme props.
-- Loading: site mounts via `client:visible`-style lazy import; mascot pauses when off-screen or tab hidden.
-- **Until maze-bot v0.1 exists**, the site ships a stub module with the same API (scripted idle wander, static SVG) so layout and slots are final from day one.
+- Theme: the demo reads `--fg --bg --surface --border --muted --accent --accent-fg --ai --radius --font-mono` from its
+  container and re-reads them on theme change. No theme props.
+- Layout: the demo owns everything inside `el` (version chips, arena, layout chips, toolbar, brain panel). Phones (container
+  < 480 px) get a portrait arena. `/playground` reserves the arena's space with a static poster until the script loads.
+- Loading: lazy import when visible; pauses when off-screen or the tab is hidden; reduced motion starts paused.
+- `mountMascot` was dropped (2026-10-04): no roaming mascot outside the Playground.
 
 ## 9. Performance & quality budget
 
@@ -179,4 +180,5 @@ Nothing goes live without Bryan reviewing it locally first.
 - **2026-10-04 — Areas are AI / Robotics / Hardware.** Work tabs: Selected (main tier) · AI · Robotics · Hardware (area tabs include earlier projects). Earlier projects shown as image cards with "Browse all hardware →".
 - **2026-10-04 — W4 done.** Default share image `public/og.png` (project pages use their cover), robots.txt, `npm run check:all`. Lighthouse (prod build, mobile): home 98/100/100/100, project 98/100/100/100, playground 99/100/100/100.
 - **2026-10-04 — W5 cutover:** dev pages and legacy/ removed; overhaul merged into main.
-- **2026-10-04 — Wheely's maze on the site (design agreed, mockup at `/dev/maze-mockups/play`):** `/playground` opens straight into the live demo; a demo switcher at the top appears once there is a second demo. Layout B: version chips → arena → toolbar → brain strip below (phones: portrait arena, compact brain strip, tap to enlarge). Four playable Wheelys: By-the-Book (hand-written rule), Rookie, Owl Eyes, Wheely (final, default). Brain panel is live (15 Hz) and draws only each neuron's strongest incoming signal (weight × activation); hover/tap shows all its connections. Story, results and failure clips (Moonwalker, Scaredy-Wheely) sit behind a prominent "How it works →" button → the project page (M6). Walls drawn while Wheely drives take effect live; the arena captures touch only in Draw/Erase. Demo JS lazy-loaded when visible, static poster first; target ≤ ~40 KB gzipped, Canvas 2D, no framework. Ghost race (previous version on the same map) deferred to after v0.1.
+- **2026-10-04 — Wheely's maze on the site (design agreed on a dev mockup, since removed):** `/playground` opens straight into the live demo; a demo switcher at the top appears once there is a second demo. Layout B: version chips → arena → toolbar → brain strip below (phones: portrait arena, compact brain strip, tap to enlarge). Four playable Wheelys: By-the-Book (hand-written rule), Rookie, Owl Eyes, Wheely (final, default). Brain panel is live (15 Hz) and draws only each neuron's strongest incoming signal (weight × activation); hover/tap shows all its connections. Story, results and failure clips (Moonwalker, Scaredy-Wheely) sit behind a prominent "How it works →" button → the project page (M6). Walls drawn while Wheely drives take effect live; the arena captures touch only in Draw/Erase. Demo JS lazy-loaded when visible, static poster first; target ≤ ~40 KB gzipped, Canvas 2D, no framework. Ghost race (previous version on the same map) deferred to after v0.1.
+- **2026-10-04 — Wheely's maze live on `/playground` (maze-bot M5):** the Playground page is the demo (stub removed, `IS_PREVIEW` gone). Package = TypeScript source compiled by the site's Vite (no build step or built files in maze-bot), restricted by `"files"`. Demo chunk 16.5 KB gz + 1.6–4 KB per Wheely's weights. "How it works →" appears automatically once the `wheelys-maze` project page exists (M6). Lighthouse /playground (mobile, prod build): 99/100/100/100, CLS 0.002. Fonts are not preloaded site-wide (small font-swap shifts remain, 0.002–0.008); revisit only if CLS budgets tighten.
