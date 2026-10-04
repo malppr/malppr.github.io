@@ -1,7 +1,7 @@
 # Portfolio Overhaul — Plan
 
 Rebuild malppr.github.io as a **project-first portfolio** for robot-learning research engineer / AI roles.
-Personal and academic work only (no SAP / Bosch). Résumé lives in the PDF, not on the page.
+Personal and academic work only (no SAP / Bosch). No CV/résumé on the site.
 
 Companion plan: `D:\Proj\maze-bot\PLAN.md` (the mascot + interactive RL demo).
 
@@ -41,7 +41,7 @@ Companion plan: `D:\Proj\maze-bot\PLAN.md` (the mascot + interactive RL demo).
 /                      Home (design D): hero + mascot · Work list (featured rows, AI/Robotics filter) · Playground teaser · publications · earlier projects
 /projects/[slug]       Project write-up (MDX), optional embedded demo
 /playground            Interactive demos (Maze Bot first, PushT later) — its own nav tab, not a project card
-/cv.pdf                Résumé download
+
 /404                   Custom not-found page (with the mascot, lost)
 ```
 
@@ -159,7 +159,7 @@ Nothing goes live without Bryan reviewing it locally first.
 ## 13. Open decisions
 
 - [ ] Fonts and accent color: Claude mocks up a few options in W2 for Bryan to pick.
-- [ ] Résumé PDF: Bryan supplies final copy near cutover; do not add before then.
+- [x] Résumé: decided **not** to publish a CV on the site.
 - [ ] Mascot art: Bryan to supply a 3D base design (GLB/OBJ/STL/STEP or top/side/front screenshots); Claude derives flat SVGs (top-down sprite + side-view logo).
 - [ ] Custom domain now or later.
 - [ ] Bookshelf tags: hardware + "hri"? (add `hri` tag if yes).
@@ -173,3 +173,4 @@ Nothing goes live without Bryan reviewing it locally first.
 - **2026-10-04 — Fonts:** Inter (variable) + JetBrains Mono, self-hosted via Fontsource. Light default, dark via OS or toggle.
 - BeetleBot showcase link removed (SUTD page gone, not archived).
 - **2026-10-04 — Mascot is named Wheely.** Home hero: drive-in + "Hi! I'm Wheely 👋" bubble on fresh arrival/refresh (skipped when returning from another page on the site), static under reduced motion. Playground demo is titled "Wheely's maze" (repo can stay `maze-bot`).
+- **2026-10-04 — No CV on the site.** Bryan decided not to publish the résumé PDF (it was briefly added and removed before any push, so it is not in git history).

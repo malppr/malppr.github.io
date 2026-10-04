@@ -19,7 +19,7 @@ Node is at `C:\Program Files\nodejs` (may not be on PATH in older shells).
 - `legacy/` is the old React site, kept only as a reference for migrating content. Delete at cutover (W5).
 - `src/pages/dev/` holds temporary review pages (e.g. `/dev/mascot`). Delete at cutover (W5).
 - Personal and academic work only — no SAP or Bosch content. Robot-arm project stays hidden (`draft: true`) until Bryan says otherwise.
-- Don't add the résumé PDF yet; Bryan will supply the final copy.
+- No résumé/CV on the site (Bryan's decision, 2026-10-04). Don't add one unless he asks.
 
 ## Docs
 
