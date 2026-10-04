@@ -41,7 +41,7 @@ Training uses PPO from Stable-Baselines3 with 96 parallel environments:
 	rows={[
 		['Rollout per update', '128 steps × 96 environments'],
 		['Minibatch, epochs', '4,096, 10'],
-		['Learning rate', '3 × 10⁻⁴'],
+		['Learning rate', '0.0003'],
 		['Discount γ, GAE λ', '0.99, 0.95'],
 		['Clip range, entropy coefficient', '0.2, 0'],
 		['Exploration std cap', 'annealed 0.6 → 0.1 over 6M steps'],
