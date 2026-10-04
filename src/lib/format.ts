@@ -17,8 +17,10 @@ export type Area = 'ai' | 'robotics' | 'hardware';
 export const AREA_LABELS: Record<Area, string> = { ai: 'AI', robotics: 'Robotics', hardware: 'Hardware' };
 
 export function areaOf(tags: readonly string[]): Area {
+	// robot-learning wins over ai: learned control of a robot is filed under Robotics
+	if (tags.includes('robot-learning')) return 'robotics';
 	if (tags.includes('ai')) return 'ai';
-	if (tags.some((t) => ['robot-learning', 'hri', 'perception'].includes(t))) return 'robotics';
+	if (tags.some((t) => ['hri', 'perception'].includes(t))) return 'robotics';
 	return 'hardware';
 }
 
