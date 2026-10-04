@@ -17,6 +17,7 @@ Node is at `C:\Program Files\nodejs` (may not be on PATH in older shells).
 - Work on the `overhaul` branch. Never push to or merge into `main` without Bryan's explicit sign-off on the local preview — `main` deploys live.
 - Every milestone ends with Bryan reviewing locally (`npm run dev`, then `npm run preview` before deploy).
 - `legacy/` is the old React site, kept only as a reference for migrating content. Delete at cutover (W5).
+- `src/pages/dev/` holds temporary review pages (e.g. `/dev/mascot`). Delete at cutover (W5).
 - Personal and academic work only — no SAP or Bosch content. Robot-arm project stays hidden (`draft: true`) until Bryan says otherwise.
 - Don't add the résumé PDF yet; Bryan will supply the final copy.
 
