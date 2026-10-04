@@ -178,3 +178,4 @@ Nothing goes live without Bryan reviewing it locally first.
 - **2026-10-04 — Open content points accepted as-is:** project years (knee exo 2022, Golden Grips 2022, TMS 2021, HyperX 2024), "CSS10" dataset name, LEAP "Ground truth" label. Project pages: role/tags/links moved below the hero image.
 - **2026-10-04 — Areas are AI / Robotics / Hardware.** Work tabs: Selected (main tier) · AI · Robotics · Hardware (area tabs include earlier projects). Earlier projects shown as image cards with "Browse all hardware →".
 - **2026-10-04 — W4 done.** Default share image `public/og.png` (project pages use their cover), robots.txt, `npm run check:all`. Lighthouse (prod build, mobile): home 98/100/100/100, project 98/100/100/100, playground 99/100/100/100.
+- **2026-10-04 — W5 cutover:** dev pages and legacy/ removed; overhaul merged into main.
