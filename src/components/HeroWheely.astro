@@ -1,14 +1,19 @@
 ---
-// Wheely, the site mascot, in the home hero: drives in on first visit per session,
-// brakes with a wobble, then says hi. Static (parked, bubble shown) under reduced motion.
+// Wheely, the site mascot, in the home hero: drives in on fresh arrivals and refreshes,
+// brakes with a wobble, then says hi. Parked (bubble on hover) under reduced motion.
 import Mascot from './Mascot.astro';
 ---
 
 <script is:inline>
-	// Only play the drive-in once per browser session.
+	// Play the drive-in on fresh arrivals and refreshes; skip it when coming back
+	// from another page on this site (link or back/forward).
 	try {
-		if (sessionStorage.getItem('wheely-intro')) document.documentElement.classList.add('wheely-seen');
-		sessionStorage.setItem('wheely-intro', '1');
+		const nav = performance.getEntriesByType('navigation')[0];
+		const type = nav && 'type' in nav ? nav.type : 'navigate';
+		const internal = document.referrer && new URL(document.referrer).origin === location.origin;
+		if (type === 'back_forward' || (type === 'navigate' && internal)) {
+			document.documentElement.classList.add('wheely-seen');
+		}
 	} catch {}
 </script>
 
