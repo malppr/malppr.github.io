@@ -6,13 +6,15 @@ interface Props {
 	poster?: string;
 	caption?: string;
 	label: string;
+	width?: number; // intrinsic size: reserves the space before the video loads (no layout shift)
+	height?: number;
 }
 
-const { src, poster, caption, label } = Astro.props;
+const { src, poster, caption, label, width, height } = Astro.props;
 ---
 
 <figure class="video">
-	<video src={src} poster={poster} aria-label={label} muted loop playsinline preload="metadata" data-autoplay></video>
+	<video src={src} poster={poster} width={width} height={height} aria-label={label} muted loop playsinline preload="metadata" data-autoplay></video>
 	{caption && <figcaption>{caption}</figcaption>}
 </figure>
 
@@ -39,6 +41,7 @@ const { src, poster, caption, label } = Astro.props;
 	video {
 		display: block;
 		width: 100%;
+		height: auto;
 		border-radius: var(--radius);
 		background: #000;
 	}

@@ -1,11 +1,11 @@
 ---
 title: Wheely's maze
-summary: A 350-number neural network, trained with reinforcement learning, drives Wheely from A to B. Draw walls and watch it think.
+summary: A tiny neural network, trained with reinforcement learning, drives Wheely through mazes you draw.
 date: 2026-10-01
 tags: [robot-learning, ai]
 order: 6
 context: Personal project
-role: "Everything: simulator, training and evaluation, and the browser demo"
+role: "Solo: simulator, training, browser demo"
 cover: ./cover.jpg
 coverAlt: Wheely, a small red two-wheeled robot, driving through a room layout with its distance rays drawn as dashed lines
 links:
@@ -34,11 +34,11 @@ Every version was tested on 1,000 unseen layouts per category against **By-the-B
 
 ## What went wrong
 
-<Video src={moonwalker} poster={moonwalkerPoster.src} label="Moonwalker reversing towards B on an empty field" caption="Moonwalker: 18 s for a trip the final Wheely does in 6." />
+<Video src={moonwalker} poster={moonwalkerPoster.src} width={960} height={600} label="Moonwalker reversing towards B on an empty field" caption="Moonwalker: 18 s for a trip the final Wheely does in 6." />
 
 **Moonwalker.** With reversing allowed, it found a shortcut: when B is behind, drive backwards. But its rays only look forward, so it backed into walls it couldn't see. Training noise hid the problem; the noise-free policy got *worse* the longer it trained. Fix: no reversing. A round robot can always spin on the spot instead.
 
-<Video src={scaredy} poster={scaredyPoster.src} label="Scaredy-Wheely stopping in front of the first wall of the slalom" caption="Scaredy-Wheely: stops and never starts again." />
+<Video src={scaredy} poster={scaredyPoster.src} width={960} height={600} label="Scaredy-Wheely stopping in front of the first wall of the slalom" caption="Scaredy-Wheely: stops and never starts again." />
 
 **Scaredy-Wheely.** A big penalty for touching walls made standing still the best strategy once mazes showed up. It froze in a quarter of completely *empty* arenas. Fix: a smaller penalty.
 
