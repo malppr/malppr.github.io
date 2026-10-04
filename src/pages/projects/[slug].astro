@@ -44,31 +44,6 @@ const links = Object.entries(d.links).filter(([, url]) => url);
 			</p>
 			<h1>{d.title}</h1>
 			<p class="summary">{d.summary}</p>
-
-			<dl class="facts">
-				{
-					d.role && (
-						<div>
-							<dt>My role</dt>
-							<dd>{d.role}</dd>
-						</div>
-					)
-				}
-				<div>
-					<dt>Tags</dt>
-					<dd>{d.tags.map((t) => TAG_LABELS[t]).join(' · ')}</dd>
-				</div>
-			</dl>
-
-			{
-				links.length > 0 && (
-					<p class="links">
-						{links.map(([k, url]) => (
-							<a href={url}>{LINK_LABELS[k] ?? k} ↗</a>
-						))}
-					</p>
-				)
-			}
 		</header>
 
 		{
@@ -78,6 +53,33 @@ const links = Object.entries(d.links).filter(([, url]) => url);
 				</div>
 			)
 		}
+
+		<dl class="content facts">
+			{
+				d.role && (
+					<div class="role">
+						<dt>My role</dt>
+						<dd>{d.role}</dd>
+					</div>
+				)
+			}
+			<div>
+				<dt>Tags</dt>
+				<dd>{d.tags.map((t) => TAG_LABELS[t]).join(' · ')}</dd>
+			</div>
+			{
+				links.length > 0 && (
+					<div>
+						<dt>Links</dt>
+						<dd class="links">
+							{links.map(([k, url]) => (
+								<a href={url}>{LINK_LABELS[k] ?? k} ↗</a>
+							))}
+						</dd>
+					</div>
+				)
+			}
+		</dl>
 
 		<div class="content prose">
 			<Content />
@@ -114,18 +116,25 @@ const links = Object.entries(d.links).filter(([, url]) => url);
 		color: var(--muted);
 	}
 
+	/* Role · Tags · Links strip under the hero image. */
 	.facts {
-		display: grid;
-		gap: 10px;
-		margin: 24px 0;
-		padding: 16px 0;
-		border-block: 1px solid var(--border);
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px 40px;
+		margin-top: 28px;
+		margin-bottom: 8px;
+		padding-bottom: 20px;
+		border-bottom: 1px solid var(--border);
 	}
 
 	.facts div {
-		display: grid;
-		grid-template-columns: 90px 1fr;
-		gap: 12px;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.facts .role {
+		flex: 1 1 300px;
 	}
 
 	dt {
@@ -134,7 +143,6 @@ const links = Object.entries(d.links).filter(([, url]) => url);
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
 		color: var(--muted);
-		padding-top: 3px;
 	}
 
 	dd {
@@ -145,11 +153,11 @@ const links = Object.entries(d.links).filter(([, url]) => url);
 	.links {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 10px;
+		gap: 8px;
 	}
 
 	.links a {
-		padding: 6px 14px;
+		padding: 3px 12px;
 		border: 1px solid var(--border);
 		border-radius: 999px;
 		font-size: 14px;
@@ -162,16 +170,17 @@ const links = Object.entries(d.links).filter(([, url]) => url);
 	}
 
 	.hero {
-		margin-block: 32px;
+		margin-block: 32px 0;
 	}
 
+	/* Size the image to itself (no letterboxing), centred, capped in height. */
 	.hero :global(img) {
 		display: block;
-		width: 100%;
-		max-height: 640px;
-		object-fit: contain;
+		width: auto;
+		max-width: 100%;
+		max-height: 560px;
+		margin-inline: auto;
 		border-radius: var(--radius);
-		background: var(--surface);
 	}
 
 	.pager {
