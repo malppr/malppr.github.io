@@ -1,4 +1,10 @@
 # My own name is matched by `ME` in src/lib/format.ts and bolded when rendered.
+- id: recpfn-2026
+  title: "RecPFN: Prior-Fitted Networks for In-Context-Based Recommendations"
+  authors: [E. Z. Tan, J. X. Lim, B. L. Chew, T. M. Ng, B. Y. H. Yap]
+  venue: ACM SIGIR
+  year: 2026
+
 - id: tts-petl-2024
   title: Leveraging Parameter-Efficient Transfer Learning for Multi-Lingual Text-to-Speech Adaptation
   authors: [Y. Li, A. Mehrish, B. Chew, B. Cheng, S. Poria]

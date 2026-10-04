@@ -1,0 +1,182 @@
+---
+// Mockup A — Research homepage: sticky intro column + text-first work list.
+import { Image } from 'astro:assets';
+import Mascot from '../../../components/Mascot.astro';
+import { AREA_LABEL, LINKS, ME, area, loadMockData, yearRange } from './_data';
+
+const { main, archive, pubs } = await loadMockData();
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+		<title>Mockup A · Research homepage</title>
+	</head>
+	<body>
+		<div class="page">
+			<aside class="intro">
+				<div class="sticky">
+					<Mascot size={84} />
+					<h1>Bryan Chew</h1>
+					<p class="role">AI &amp; Robotics Engineer</p>
+					<p class="bio">
+						I build learning systems — speech and language models, foundation models for structured data, and the robots
+						that put models into the physical world. Published at <em>SIGIR</em> and <em>RO-MAN</em>.
+					</p>
+					<nav>
+						<a href="#work">Work</a>
+						<a href="#playground">Playground</a>
+						<a href="#publications">Publications</a>
+						<a href="#">CV</a>
+					</nav>
+					<p class="links">
+						<a href={LINKS.github}>GitHub</a> · <a href={LINKS.linkedin}>LinkedIn</a> · <a href={LINKS.email}>Email</a>
+					</p>
+				</div>
+			</aside>
+
+			<main>
+				<section id="work">
+					<h2>Selected work</h2>
+					<div class="filters" role="group" aria-label="Filter">
+						<button class="on">All</button><button>AI</button><button>Robotics</button>
+					</div>
+					<ul class="work">
+						{
+							main.map((p) => (
+								<li>
+									<a href={`/projects/${p.id}`}>
+										<Image src={p.data.cover} alt={p.data.coverAlt} width={240} />
+										<div>
+											<p class="meta">
+												<span class={`pill ${area(p)}`}>{AREA_LABEL[area(p)]}</span>
+												{yearRange(p.data.date, p.data.endDate)}
+											</p>
+											<h3>{p.data.title}</h3>
+											<p>{p.data.summary}</p>
+										</div>
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</section>
+
+				<section id="playground" class="play">
+					<div>
+						<h2>Playground</h2>
+						<p>
+							Interactive experiments that run in your browser. First up: <strong>Maze Bot</strong>, a tiny robot that
+							learns to navigate with reinforcement learning. Draw a maze and watch its neurons fire.
+						</p>
+						<a class="btn" href="/playground">Open the playground →</a>
+					</div>
+					<Mascot size={150} />
+				</section>
+
+				<section id="publications">
+					<h2>Publications</h2>
+					<ol class="pubs">
+						{
+							pubs.map(({ data }) => (
+								<li>
+									<span class="venue">{data.venue} {data.year}</span>
+									<p class="title">{data.title}</p>
+									<p class="authors">
+										{data.authors.map((a, i) => (
+											<>
+												{ME.test(a) ? <strong>{a}</strong> : a}
+												{i < data.authors.length - 1 && ', '}
+											</>
+										))}
+									</p>
+								</li>
+							))
+						}
+					</ol>
+				</section>
+
+				<section>
+					<h2>Earlier projects</h2>
+					<ul class="archive">
+						{
+							archive.map((p) => (
+								<li>
+									<a href={`/projects/${p.id}`}>{p.data.title}</a>
+									<span>{p.data.summary}</span>
+								</li>
+							))
+						}
+					</ul>
+				</section>
+			</main>
+		</div>
+
+		<style>
+			:root {
+				--bg: #f7f4ee;
+				--fg: #1f1d1a;
+				--muted: #6f6a61;
+				--line: #e3ddd2;
+				--accent: #b8402f;
+				--ai: #2f5fb8;
+				--rob: #b8402f;
+			}
+			* { box-sizing: border-box; }
+			body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.65 Inter, system-ui, sans-serif; }
+			a { color: inherit; }
+			h1, h2, h3 { font-family: Newsreader, Georgia, serif; font-weight: 600; letter-spacing: -0.01em; }
+			.page { display: grid; grid-template-columns: 340px 1fr; gap: 64px; max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+			.sticky { position: sticky; top: 0; padding: 56px 0; }
+			h1 { font-size: 40px; margin: 12px 0 0; }
+			.role { margin: 0; color: var(--accent); font-weight: 600; }
+			.bio { color: var(--muted); }
+			nav { display: flex; flex-direction: column; gap: 6px; margin: 28px 0; }
+			nav a { text-decoration: none; font-weight: 500; }
+			nav a::before { content: '— '; color: var(--line); }
+			nav a:hover::before { color: var(--accent); }
+			.links { font-size: 14px; color: var(--muted); }
+			main { padding: 56px 0 96px; }
+			section { margin-bottom: 72px; }
+			h2 { font-size: 28px; margin: 0 0 20px; }
+			.filters { display: flex; gap: 8px; margin-bottom: 12px; }
+			.filters button { font: inherit; font-size: 14px; padding: 4px 14px; border-radius: 999px; border: 1px solid var(--line); background: transparent; cursor: pointer; }
+			.filters .on { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+			.work { list-style: none; padding: 0; margin: 0; }
+			.work a { display: grid; grid-template-columns: 160px 1fr; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+			.work a:hover h3 { color: var(--accent); }
+			.work img { width: 160px; height: 120px; object-fit: cover; border-radius: 6px; }
+			.work h3 { font-size: 22px; margin: 2px 0 4px; }
+			.work p { margin: 0; color: var(--muted); }
+			.meta { font-size: 13px; display: flex; gap: 10px; align-items: center; }
+			.pill { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+			.pill.ai { color: var(--ai); }
+			.pill.robotics { color: var(--rob); }
+			.play { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 28px 32px; border: 1px solid var(--line); border-radius: 14px; background: #fffdf9; }
+			.play p { color: var(--muted); }
+			.btn { display: inline-block; padding: 8px 18px; border-radius: 999px; background: var(--fg); color: var(--bg); text-decoration: none; font-weight: 500; }
+			.pubs { list-style: none; padding: 0; margin: 0; }
+			.pubs li { padding: 14px 0; border-bottom: 1px solid var(--line); }
+			.venue { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+			.pubs .title { font-family: Newsreader, Georgia, serif; font-size: 19px; margin: 2px 0; }
+			.authors { margin: 0; font-size: 14px; color: var(--muted); }
+			.archive { list-style: none; padding: 0; margin: 0; }
+			.archive li { padding: 8px 0; }
+			.archive span { display: block; font-size: 14px; color: var(--muted); }
+			@media (max-width: 860px) {
+				.page { grid-template-columns: 1fr; gap: 0; padding: 0 16px; }
+				.sticky { position: static; padding: 40px 0 8px; }
+				main { padding-top: 24px; }
+				.work a { grid-template-columns: 96px 1fr; gap: 16px; }
+				.work img { width: 96px; height: 72px; }
+				.play { flex-direction: column-reverse; align-items: flex-start; }
+			}
+		</style>
+	</body>
+</html>

@@ -7,7 +7,7 @@ interface Props {
 }
 
 const { name } = Astro.props;
-const href = `/play/${name}`;
+const href = `/playground#${name}`;
 ---
 
 <div class="demo" data-demo={name}>

@@ -1,0 +1,40 @@
+---
+// Placeholder until the maze-bot package lands (W3/W6).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Mascot from '../components/Mascot.astro';
+---
+
+<BaseLayout title="Playground" description="Interactive robot-learning experiments that run in your browser.">
+	<section class="content play">
+		<Mascot size={200} />
+		<h1>Playground</h1>
+		<p>Interactive experiments that run right in your browser.</p>
+		<div id="maze" class="slot">
+			<h2>Maze Bot</h2>
+			<p>A tiny two-wheeled robot learns to navigate with reinforcement learning. Draw a maze and watch its neurons fire. Coming soon.</p>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.play {
+		padding-top: 48px;
+		text-align: center;
+	}
+
+	.play > p {
+		color: var(--muted);
+	}
+
+	.slot {
+		margin-top: 32px;
+		padding: 32px;
+		border: 1px dashed var(--border);
+		border-radius: var(--radius);
+		background: var(--surface);
+	}
+
+	.slot p {
+		color: var(--muted);
+	}
+</style>

@@ -39,21 +39,8 @@ const projects = defineCollection({
 					more: z.url().optional(),
 				})
 				.default({}),
-			demo: z.enum(['maze', 'pusht']).optional(),
 			draft: z.boolean().default(false),
 		}),
-});
-
-// Dev log entries, optionally tied to a project.
-const lab = defineCollection({
-	loader: glob({ pattern: '*.mdx', base: './src/content/lab' }),
-	schema: z.object({
-		title: z.string(),
-		date: z.coerce.date(),
-		summary: z.string(),
-		project: reference('projects').optional(),
-		draft: z.boolean().default(false),
-	}),
 });
 
 const publications = defineCollection({
@@ -74,4 +61,4 @@ const publications = defineCollection({
 	}),
 });
 
-export const collections = { projects, lab, publications };
+export const collections = { projects, publications };

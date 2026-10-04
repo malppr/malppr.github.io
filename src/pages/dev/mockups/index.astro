@@ -1,0 +1,40 @@
+---
+// Temporary: index of W2 design mockups.
+import Mascot from '../../../components/Mascot.astro';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>Design mockups</title>
+	</head>
+	<body>
+		<Mascot size={90} />
+		<h1>Design mockups</h1>
+		<p>Three different directions for the home page. All use the real content. Each also works on phones — try narrowing the window.</p>
+		<ol>
+			<li>
+				<a href="/dev/mockups/a">A · Research homepage</a>
+				<span>Two-column, editorial. Sticky intro on the left, selected work + publications on the right. Text-first, calm, very "research engineer".</span>
+			</li>
+			<li>
+				<a href="/dev/mockups/b">B · Bento playground</a>
+				<span>Playful tile grid. Mascot is the star; AI and Robotics get equal tiles up top. Friendly and memorable.</span>
+			</li>
+			<li>
+				<a href="/dev/mockups/c">C · Dark technical</a>
+				<span>Dark blueprint look with an AI × Robotics split hero and big case-study rows. Bold and engineering-heavy.</span>
+			</li>
+		</ol>
+		<style>
+			body { max-width: 720px; margin: 48px auto; padding: 0 16px; font: 17px/1.6 system-ui, sans-serif; color: #222; background: #fafaf8; }
+			ol { padding-left: 20px; }
+			li { margin-bottom: 18px; }
+			li a { font-weight: 700; font-size: 1.1rem; }
+			li span { display: block; color: #666; }
+		</style>
+	</body>
+</html>
