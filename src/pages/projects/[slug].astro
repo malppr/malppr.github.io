@@ -48,12 +48,12 @@ const links = Object.entries(d.links).filter(([, url]) => url);
 
 		{
 			d.hero && (
-				<div class="container hero">
+				<div class="content hero">
 					<Image
 						src={d.hero}
 						alt={d.heroAlt ?? ''}
 						widths={[640, 960, 1280, 1600]}
-						sizes="(min-width: 1120px) 1120px, 100vw"
+						sizes="(min-width: 752px) 720px, 100vw"
 						loading="eager"
 						style={`aspect-ratio: ${d.hero.width} / ${d.hero.height}; width: min(100%, ${Math.round((560 * d.hero.width) / d.hero.height)}px)`}
 					/>
@@ -180,7 +180,7 @@ const links = Object.entries(d.links).filter(([, url]) => url);
 		margin-block: 32px 0;
 	}
 
-	/* Size the image to itself (no letterboxing), centred, capped in height. The inline style sets the same
+	/* Text-column width (tall images capped in height and centred), no letterboxing. The inline style sets the same
 	   size from the image metadata, so the box is reserved before the file loads (no layout shift). */
 	.hero :global(img) {
 		display: block;
