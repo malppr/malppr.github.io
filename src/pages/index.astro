@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Mascot from '../components/Mascot.astro';
@@ -34,13 +35,15 @@ const archive = projects.filter((p) => p.data.tier === 'archive');
 		<div class="head">
 			<h2>Work</h2>
 			<div class="filters" role="group" aria-label="Filter projects" hidden>
-				<button type="button" data-filter="all" aria-pressed="true">All</button>
+				<button type="button" data-filter="selected" aria-pressed="true">Selected</button>
 				<button type="button" data-filter="ai" aria-pressed="false">AI</button>
 				<button type="button" data-filter="robotics" aria-pressed="false">Robotics</button>
+				<button type="button" data-filter="hardware" aria-pressed="false">Hardware</button>
 			</div>
 		</div>
 		<ul class="work">
 			{main.map((p) => <ProjectRow project={p} />)}
+			{archive.map((p) => <ProjectRow project={p} hidden />)}
 		</ul>
 	</section>
 
@@ -65,14 +68,22 @@ const archive = projects.filter((p) => p.data.tier === 'archive');
 	</section>
 
 	<section id="earlier" class="container section">
-		<h2>Earlier projects</h2>
-		<ul class="archive">
+		<div class="head">
+			<h2>Earlier projects</h2>
+			<a class="more" href="#work" data-show="hardware">Browse all hardware →</a>
+		</div>
+		<ul class="earlier">
 			{
 				archive.map((p) => (
 					<li>
-						<a href={`/projects/${p.id}`}>{p.data.title}</a>
-						<span>{p.data.summary}</span>
-						<span class="yr">{yearRange(p.data.date, p.data.endDate)}</span>
+						<a href={`/projects/${p.id}`}>
+							<div class="thumb">
+								<Image src={p.data.cover} alt={p.data.coverAlt} width={480} />
+							</div>
+							<p class="meta">{yearRange(p.data.date, p.data.endDate)}</p>
+							<h3>{p.data.title}</h3>
+							<p class="sum">{p.data.summary}</p>
+						</a>
 					</li>
 				))
 			}
@@ -81,17 +92,23 @@ const archive = projects.filter((p) => p.data.tier === 'archive');
 </BaseLayout>
 
 <script>
+	// "Selected" shows the main projects; an area tab shows every project in that area,
+	// including earlier (archive) ones.
 	const group = document.querySelector<HTMLElement>('.filters');
 	if (group) {
 		group.hidden = false;
 		const rows = document.querySelectorAll<HTMLElement>('.work [data-area]');
+		const apply = (f: string) => {
+			for (const b of group.querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.filter === f));
+			for (const r of rows) r.hidden = f === 'selected' ? r.dataset.tier !== 'main' : r.dataset.area !== f;
+		};
 		group.addEventListener('click', (e) => {
 			const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-filter]');
-			if (!btn) return;
-			const f = btn.dataset.filter;
-			for (const b of group.querySelectorAll('button')) b.setAttribute('aria-pressed', String(b === btn));
-			for (const r of rows) r.hidden = f !== 'all' && r.dataset.area !== f;
+			if (btn) apply(btn.dataset.filter!);
 		});
+		for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-show]')) {
+			link.addEventListener('click', () => apply(link.dataset.show!));
+		}
 	}
 </script>
 
@@ -201,28 +218,65 @@ const archive = projects.filter((p) => p.data.tier === 'archive');
 		color: var(--muted);
 	}
 
-	.archive {
+	.more {
+		font-size: 15px;
+		font-weight: 500;
+	}
+
+	.earlier {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: 24px;
 		list-style: none;
 		margin: 16px 0 0;
 		padding: 0;
 	}
 
-	.archive li {
-		display: grid;
-		grid-template-columns: 180px 1fr auto;
-		gap: 16px;
-		padding: 12px 0;
-		border-bottom: 1px solid var(--border);
+	.earlier a {
+		display: block;
+		text-decoration: none;
+		color: inherit;
 	}
 
-	.archive span {
-		font-size: 15px;
+	.earlier .thumb {
+		overflow: hidden;
+		border-radius: 10px;
+		background: var(--surface);
+		aspect-ratio: 4 / 3;
+	}
+
+	.earlier .thumb :global(img) {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.25s ease;
+	}
+
+	.earlier a:hover :global(img) {
+		transform: scale(1.03);
+	}
+
+	.earlier a:hover h3 {
+		color: var(--accent);
+	}
+
+	.earlier .meta {
+		margin: 12px 0 0;
+		font-family: var(--font-mono);
+		font-size: 12px;
 		color: var(--muted);
 	}
 
-	.archive .yr {
-		font-family: var(--font-mono);
-		font-size: 13px;
+	.earlier h3 {
+		margin: 2px 0 4px;
+		font-size: 18px;
+	}
+
+	.earlier .sum {
+		margin: 0;
+		font-size: 15px;
+		color: var(--muted);
 	}
 
 	@media (max-width: 760px) {
@@ -234,15 +288,6 @@ const archive = projects.filter((p) => p.data.tier === 'archive');
 			flex-direction: column-reverse;
 			align-items: flex-start;
 			padding: 24px;
-		}
-
-		.archive li {
-			grid-template-columns: 1fr auto;
-		}
-
-		.archive li span:not(.yr) {
-			grid-column: 1 / -1;
-			grid-row: 2;
 		}
 	}
 </style>

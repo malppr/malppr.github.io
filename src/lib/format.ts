@@ -12,14 +12,14 @@ export const TAG_LABELS: Record<string, string> = {
 };
 
 // Top-level area shown on the site, derived from tags.
-export type Area = 'ai' | 'robotics' | 'design';
+export type Area = 'ai' | 'robotics' | 'hardware';
 
-export const AREA_LABELS: Record<Area, string> = { ai: 'AI', robotics: 'Robotics', design: 'Design' };
+export const AREA_LABELS: Record<Area, string> = { ai: 'AI', robotics: 'Robotics', hardware: 'Hardware' };
 
 export function areaOf(tags: readonly string[]): Area {
 	if (tags.includes('ai')) return 'ai';
-	if (tags.includes('design')) return 'design';
-	return 'robotics';
+	if (tags.some((t) => ['robot-learning', 'hri', 'perception'].includes(t))) return 'robotics';
+	return 'hardware';
 }
 
 export function yearRange(start: Date, end?: Date, ongoing = false): string {

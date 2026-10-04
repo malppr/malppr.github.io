@@ -15,6 +15,7 @@
 	--accent-fg: #ffffff;
 	--ai: #2f6fe0;
 	--robotics: #c94436;
+	--hardware: #8f5c0c;
 	--shadow: 0 10px 30px rgb(40 30 20 / 0.07);
 
 	--font-sans: 'Inter Variable', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -39,6 +40,7 @@
 		--accent-fg: #141413;
 		--ai: #7ea8ff;
 		--robotics: #ff8170;
+		--hardware: #e3a548;
 		--shadow: 0 10px 30px rgb(0 0 0 / 0.35);
 		color-scheme: dark;
 	}
@@ -54,6 +56,7 @@
 	--accent-fg: #141413;
 	--ai: #7ea8ff;
 	--robotics: #ff8170;
+	--hardware: #e3a548;
 	--shadow: 0 10px 30px rgb(0 0 0 / 0.35);
 	color-scheme: dark;
 }
@@ -154,8 +157,8 @@ h3 {
 	color: var(--robotics);
 }
 
-.area--design {
-	color: var(--muted);
+.area--hardware {
+	color: var(--hardware);
 }
 
 .btn {

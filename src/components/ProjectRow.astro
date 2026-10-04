@@ -1,19 +1,22 @@
 ---
 // One project in the home-page work list. All rows share one size so text lines up.
+// `data-tier` lets the filter show earlier (archive) projects only inside their area tab.
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { AREA_LABELS, areaOf, yearRange } from '../lib/format';
 
 interface Props {
 	project: CollectionEntry<'projects'>;
+	/** Rendered hidden (shown by a filter), e.g. earlier projects. */
+	hidden?: boolean;
 }
 
-const { project } = Astro.props;
+const { project, hidden = false } = Astro.props;
 const d = project.data;
 const area = areaOf(d.tags);
 ---
 
-<li class="row" data-area={area}>
+<li class="row" data-area={area} data-tier={d.tier} hidden={hidden}>
 	<a href={`/projects/${project.id}`}>
 		<div class="thumb">
 			<Image src={d.cover} alt={d.coverAlt} width={480} />
