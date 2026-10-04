@@ -1978,24 +1978,24 @@ var VERSIONS = [
 	{
 		id: "heuristic",
 		name: "By-the-Book",
-		blurb: "No learning, just rules I wrote by hand. Every other Wheely has to beat this."
+		blurb: "A heuristic policy with no learning. The baseline the trained versions are compared with."
 	},
 	{
 		id: "v3-rookie",
 		name: "Rookie",
-		blurb: "The first Wheely that learned to drive. Fine in the open, lost in mazes.",
+		blurb: "The first version that learned to drive. Good in open layouts, weak in mazes.",
 		load: () => import("./maze-bot-weights-CPuvYqCO.js")
 	},
 	{
 		id: "v4-owl-eyes",
 		name: "Owl Eyes",
-		blurb: "Rays all the way around, so it notices when it has driven into a pocket.",
+		blurb: "Seven rays all around, including behind. Better at getting out of traps.",
 		load: () => import("./maze-bot-weights-Bkx4MjQ_.js")
 	},
 	{
 		id: "final",
 		name: "Wheely",
-		blurb: "Remembers its last move, so it stops dithering. Beats the rules in 6 of 7 tests.",
+		blurb: "Gets its previous wheel command as input. Matches or beats the heuristic in 6 of 7 categories.",
 		load: () => import("./maze-bot-weights-Bd0wvSmz.js")
 	}
 ];

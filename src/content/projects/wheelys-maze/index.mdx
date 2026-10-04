@@ -1,6 +1,6 @@
 ---
 title: Wheely's maze
-summary: A tiny neural network, trained with reinforcement learning, drives Wheely through mazes you draw.
+summary: A small neural network, trained with reinforcement learning, drives Wheely from A to B in layouts you can draw.
 date: 2026-10-01
 tags: [robot-learning, ai]
 order: 6
@@ -20,51 +20,46 @@ import moonwalkerPoster from './moonwalker-poster.jpg';
 import scaredy from './scaredy.mp4';
 import scaredyPoster from './scaredy-poster.jpg';
 
-Wheely, this site's mascot, learned to drive itself from A to B with reinforcement learning. Its whole brain is 350 numbers, and it runs right in your browser: **[play with it](/playground)**, draw walls, and watch every neuron fire.
+Wheely, the mascot of this site, learned to drive from A to B with reinforcement learning. The policy has 350 parameters and runs in the browser on the [Playground](/playground), where you can draw walls and see the network's activations.
 
-## The setup
+## Setup
 
-- **Sees:** five distance rays (−60° to +60°), the direction and distance to B, and what its wheels did a moment ago.
-- **Does:** sets the left and right wheel speeds, 15 times a second.
-- **Thinks:** a network of 10 → 12 → 12 → 4 → 2 neurons.
+Wheely observes five distance rays (−60° to +60°), the direction and distance to B, and its previous wheel command. It outputs the left and right wheel speeds 15 times a second. The network is 10 → 12 → 12 → 4 → 2.
 
-It trained with PPO in a Python simulator on thousands of random layouts (open fields, posts, scribbles, mazes), easy ones first. The reward is progress along the shortest path to B, small costs for time and for touching walls, and a bonus for arriving.
+I trained it with PPO in a Python simulator on randomly generated layouts (open fields, posts, scribbles and mazes), starting with the easy ones. The reward is progress along the shortest path to B, with small costs for time and wall contact and a bonus for reaching B.
 
-Every version was tested on 1,000 unseen layouts per category against **By-the-Book**, a rule I wrote by hand that sees exactly the same inputs.
+Each version was evaluated on 1,000 unseen layouts per category and compared with a heuristic policy (By-the-Book) that uses the same inputs.
 
-## What went wrong
+## Failures
 
-<Video src={moonwalker} poster={moonwalkerPoster.src} width={960} height={600} label="Moonwalker reversing towards B on an empty field" caption="Moonwalker: 18 s for a trip the final Wheely does in 6." />
+<Video src={moonwalker} poster={moonwalkerPoster.src} width={960} height={600} label="Moonwalker reversing towards B on an empty field" caption="Moonwalker takes 18 s for a trip the final version does in 6 s." />
 
-**Moonwalker.** With reversing allowed, it found a shortcut: when B is behind, drive backwards. But its rays only look forward, so it backed into walls it couldn't see. Training noise hid the problem; the noise-free policy got *worse* the longer it trained. Fix: no reversing. A round robot can always spin on the spot instead.
+The first version was allowed to reverse. It learned to drive backwards whenever B was behind it, but its rays only face forward, so it reversed into walls it could not see. Exploration noise during training hid the problem, and the deterministic policy got worse as training went on. Removing reversing fixed it; a round robot can always turn on the spot instead.
 
-<Video src={scaredy} poster={scaredyPoster.src} width={960} height={600} label="Scaredy-Wheely stopping in front of the first wall of the slalom" caption="Scaredy-Wheely: stops and never starts again." />
+<Video src={scaredy} poster={scaredyPoster.src} width={960} height={600} label="Scaredy-Wheely stopping in front of the first wall of the slalom" caption="Scaredy-Wheely stops after a few seconds and does not move again." />
 
-**Scaredy-Wheely.** A big penalty for touching walls made standing still the best strategy once mazes showed up. It froze in a quarter of completely *empty* arenas. Fix: a smaller penalty.
+A later version had a large penalty for touching walls. Once mazes were added to training, standing still scored better than risking contact, and it froze in 24% of empty arenas. A smaller penalty fixed it.
 
-## What helped
+## Results
 
-- **Bigger networks: no.** From 6-6 to 64-64 neurons, mazes stayed at 43–46%.
-- **Seeing behind: yes, for traps.** Owl Eyes has seven rays all the way round: traps went from 18% to 64%.
-- **Memory: the biggest win.** Feeding back its last wheel command stopped the dithering. This Wheely matches or beats By-the-Book in 6 of 7 categories.
+Larger networks did not help: from 6-6 to 64-64 hidden units, maze success stayed between 43% and 46%. Adding rays that cover the back (Owl Eyes, seven rays) raised trap success from 18% to 64%. Giving the network its previous wheel command as an input helped the most. It reduced oscillation, and that version matches or beats the heuristic policy in 6 of 7 categories.
 
 <Metrics
-	caption="Success on 1,000 unseen layouts per category (%). All four are playable in the demo."
+	caption="Success rate (%) on 1,000 unseen layouts per category. All four versions are playable on the Playground."
 	columns={['', 'Open', 'Obstacles', 'Scribbles', 'Mixed', 'Mazes', 'Traps']}
 	rows={[
-		['By-the-Book (hand-written)', 100, 95.6, 89.7, 84.6, 68.6, 38.4],
-		['Rookie (first that worked)', 100, 93.9, 87.2, 82.4, 43.6, 18.2],
-		['Owl Eyes (360° rays)', 99.3, 95.3, 91.2, 83.1, 56.3, 63.8],
-		['Wheely (with memory)', 100, 96.8, 92.9, 87.6, 59.7, 60.7],
+		['By-the-Book (heuristic policy)', 100, 95.6, 89.7, 84.6, 68.6, 38.4],
+		['Rookie (first working version)', 100, 93.9, 87.2, 82.4, 43.6, 18.2],
+		['Owl Eyes (rays all around)', 99.3, 95.3, 91.2, 83.1, 56.3, 63.8],
+		['Wheely (previous action as input)', 100, 96.8, 92.9, 87.6, 59.7, 60.7],
 	]}
-	highlight="Wheely (with memory)"
 />
 
-Also tried, little or no gain: a recurrent (GRU) memory, a longer planning horizon, a bonus for arriving early, and a critic that sees the true shortest path during training.
+A recurrent (GRU) policy, a longer discount horizon, a bonus for arriving early and a critic with access to the true shortest path gave little or no improvement.
 
-## The honest gap: mazes
+## Mazes
 
-Wheely solves 60% of test mazes; By-the-Book solves 69%. On direct paths they're level. When the path twists, Wheely falls apart:
+Mazes are the one category where the heuristic policy is better: 69% against 60%. The difference depends on how much the path turns:
 
 <Metrics
 	columns={['Turns on the shortest path', 'Wheely', 'By-the-Book']}
@@ -76,10 +71,10 @@ Wheely solves 60% of test mazes; By-the-Book solves 69%. On direct paths they're
 	]}
 />
 
-84% of its maze failures happen in the first quarter of the path, ping-ponging in corridors that lead away from B. It's good at heading for the goal but won't commit to a long detour, and remembering one step back can't fix that. Try it yourself: give Wheely **The trap**.
+84% of Wheely's maze failures happen in the first quarter of the path, where it moves back and forth in corridors that lead away from B. It heads for the goal reliably but does not commit to long detours, which a one-step memory cannot fix. The Trap layout on the Playground shows this.
 
-One caveat: each setup was trained once, so small differences are noise. Trap scores swung between 32% and 76% across near-identical runs.
+Each configuration was trained with a single seed, so small differences between versions are within noise. Trap success varied between 32% and 76% across near-identical runs.
 
-## In the browser
+## Browser port
 
-The simulator is ported to TypeScript and tested against the Python original: over 486-step drives, positions agree to within 10⁻¹⁴. The whole demo is under 20 KB, runs on a phone, and draws the network live with each neuron's strongest incoming signal.
+The simulator is ported to TypeScript and tested against the Python version; over 486-step episodes the positions agree to within 10⁻¹⁴. The demo is under 20 KB and draws each neuron's strongest incoming signal as it drives.
