@@ -10,7 +10,8 @@ Companion plan: `D:\Proj\maze-bot\PLAN.md` (the mascot + interactive RL demo).
 ## 1. Goals
 
 - Projects are the main content; each has a proper write-up (problem → my role → approach → results → what failed).
-- Easy to extend: adding a project = adding a folder. Ongoing projects get a dev log ("Lab notes").
+- Easy to extend: adding a project = adding a folder.
+- Positioned for **both AI and robotics** roles: every project is labelled AI or Robotics, with filters on the home page.
 - Interactive demos (maze bot, later PushT) plug in as lazy-loaded islands without slowing the rest of the site.
 - Fixes everything from the review: deep links work, SEO/OG tags, optimized images, accessible markup, dark mode that actually works.
 
@@ -37,12 +38,9 @@ Companion plan: `D:\Proj\maze-bot\PLAN.md` (the mascot + interactive RL demo).
 ## 4. Information architecture
 
 ```
-/                      Home: hero (+ roaming mascot) · featured projects · filterable grid · publications · archive
+/                      Home (design D): hero + mascot · Work list (featured rows, AI/Robotics filter) · Playground teaser · publications · earlier projects
 /projects/[slug]       Project write-up (MDX), optional embedded demo
-/lab                   Lab notes index (dev log across projects)
-/lab/[slug]            Single note, tagged to a project
-/play/maze             Full-screen maze-bot demo (mascot click target)
-/play/pusht            (later) advanced level
+/playground            Interactive demos (Maze Bot first, PushT later) — its own nav tab, not a project card
 /cv.pdf                Résumé download
 /404                   Custom not-found page (with the mascot, lost)
 ```
@@ -65,7 +63,6 @@ demo?: "maze" | "pusht"         // embeds an interactive island
 draft?: boolean
 ```
 
-- `lab/<slug>.mdx`: `title, date, project (ref), summary`.
 - `publications/*.yaml`: `title, authors, venue, year, links` (my name bolded at render).
 - Media lives next to each project's MDX.
 
@@ -166,3 +163,12 @@ Nothing goes live without Bryan reviewing it locally first.
 - [ ] Mascot art: Bryan to supply a 3D base design (GLB/OBJ/STL/STEP or top/side/front screenshots); Claude derives flat SVGs (top-down sprite + side-view logo).
 - [ ] Custom domain now or later.
 - [ ] Bookshelf tags: hardware + "hri"? (add `hri` tag if yes).
+
+## 14. Decisions log
+
+- **2026-10-04 — Layout:** Bryan picked mockup **D** (original header + wide hero, project *list* instead of cards, featured rows show context + role). Mockups A–E kept at `/dev/mockups` until cutover.
+- **2026-10-04 — No lab notes.** Replaced by a **Playground** nav tab; Maze Bot lives there, not in the project grid.
+- **2026-10-04 — Publications:** include RecPFN (SIGIR 2026), no link until public.
+- **2026-10-04 — Positioning:** AI and robotics weighted equally; `areaOf(tags)` in `src/lib/format.ts` maps tags → AI / Robotics / Design.
+- **2026-10-04 — Fonts:** Inter (variable) + JetBrains Mono, self-hosted via Fontsource. Light default, dark via OS or toggle.
+- BeetleBot showcase link removed (SUTD page gone, not archived).

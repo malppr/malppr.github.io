@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { TAG_LABELS, isVisible, sortProjects, yearRange } from '../../lib/format';
+import { AREA_LABELS, TAG_LABELS, areaOf, isVisible, sortProjects, yearRange } from '../../lib/format';
 
 export async function getStaticPaths() {
 	const projects = (await getCollection('projects', isVisible)).sort(sortProjects);
@@ -21,6 +21,7 @@ interface Props {
 const { project, prev, next } = Astro.props;
 const { Content } = await render(project);
 const d = project.data;
+const area = areaOf(d.tags);
 
 const LINK_LABELS: Record<string, string> = {
 	paper: 'Paper',
@@ -36,9 +37,9 @@ const links = Object.entries(d.links).filter(([, url]) => url);
 <BaseLayout title={d.title} description={d.summary} image={d.cover} noindex={d.draft}>
 	<article>
 		<header class="content head">
-			<a href="/#projects" class="back">← All projects</a>
+			<a href="/#work" class="back">← All work</a>
 			<p class="eyebrow">
-				{yearRange(d.date, d.endDate, d.status === 'ongoing')}
+				<span class={`area area--${area}`}>{AREA_LABELS[area]}</span> · {yearRange(d.date, d.endDate, d.status === 'ongoing')}
 				{d.context && <> · {d.context}</>}
 			</p>
 			<h1>{d.title}</h1>

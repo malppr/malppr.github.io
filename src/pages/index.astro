@@ -1,25 +1,26 @@
 ---
-// W1 home: structure and content only. Visual design comes in W2, roaming mascot in W3.
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Mascot from '../components/Mascot.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import ProjectRow from '../components/ProjectRow.astro';
 import PublicationList from '../components/PublicationList.astro';
 import { isVisible, sortProjects, yearRange } from '../lib/format';
 
 const projects = (await getCollection('projects', isVisible)).sort(sortProjects);
 const main = projects.filter((p) => p.data.tier === 'main');
+const featured = main.filter((p) => p.data.featured);
+const rest = main.filter((p) => !p.data.featured);
 const archive = projects.filter((p) => p.data.tier === 'archive');
 ---
 
 <BaseLayout>
 	<section class="hero container">
 		<div>
-			<p class="eyebrow">Robot learning · AI</p>
-			<h1>Hi, I'm Bryan. I build robots and the models that drive them.</h1>
+			<p class="eyebrow">AI · Robotics</p>
+			<h1>I build learning systems, from speech models to robots.</h1>
 			<p class="lede">
-				Engineer working at the intersection of foundation models and robotics. Below are the things I've built, studied
-				and am still figuring out.
+				Engineer working across machine learning and robotics: speech and language models, foundation models for
+				structured data, and robots that put models into the physical world. Published at SIGIR and RO-MAN.
 			</p>
 			<p class="links">
 				<a href="https://github.com/malppr">GitHub</a>
@@ -27,81 +28,195 @@ const archive = projects.filter((p) => p.data.tier === 'archive');
 				<a href="mailto:bryanchewlj@gmail.com">Email</a>
 			</p>
 		</div>
-		<Mascot size={220} />
+		<a class="hero-bot" href="/playground" aria-label="Meet Maze Bot in the playground">
+			<Mascot size={220} />
+		</a>
 	</section>
 
-	<section id="projects" class="container section">
-		<h2>Projects</h2>
-		<div class="grid">
-			{main.map((p) => <ProjectCard project={p} />)}
+	<section id="work" class="container section">
+		<div class="head">
+			<h2>Work</h2>
+			<div class="filters" role="group" aria-label="Filter projects" hidden>
+				<button type="button" data-filter="all" aria-pressed="true">All</button>
+				<button type="button" data-filter="ai" aria-pressed="false">AI</button>
+				<button type="button" data-filter="robotics" aria-pressed="false">Robotics</button>
+			</div>
 		</div>
+		<ul class="work">
+			{featured.map((p) => <ProjectRow project={p} featured />)}
+			{rest.map((p) => <ProjectRow project={p} />)}
+		</ul>
 	</section>
 
-	<section id="archive" class="container section">
-		<h2>Other projects</h2>
-		<ul class="archive">
-			{
-				archive.map((p) => (
-					<li>
-						<a href={`/projects/${p.id}`}>{p.data.title}</a>
-						<span>{p.data.summary}</span>
-						<span class="year">{yearRange(p.data.date, p.data.endDate)}</span>
-					</li>
-				))
-			}
-		</ul>
+	<section class="container section">
+		<div class="play">
+			<div>
+				<p class="eyebrow">Playground</p>
+				<h2>Meet Maze Bot</h2>
+				<p>
+					A tiny robot that learns to navigate with reinforcement learning, running live in your browser. Draw a maze and
+					watch its neurons fire.
+				</p>
+				<a class="btn" href="/playground">Open the playground →</a>
+			</div>
+			<Mascot size={150} />
+		</div>
 	</section>
 
 	<section id="publications" class="container section">
 		<h2>Publications</h2>
 		<PublicationList />
 	</section>
+
+	<section id="earlier" class="container section">
+		<h2>Earlier projects</h2>
+		<ul class="archive">
+			{
+				archive.map((p) => (
+					<li>
+						<a href={`/projects/${p.id}`}>{p.data.title}</a>
+						<span>{p.data.summary}</span>
+						<span class="yr">{yearRange(p.data.date, p.data.endDate)}</span>
+					</li>
+				))
+			}
+		</ul>
+	</section>
 </BaseLayout>
+
+<script>
+	const group = document.querySelector<HTMLElement>('.filters');
+	if (group) {
+		group.hidden = false;
+		const rows = document.querySelectorAll<HTMLElement>('.work [data-area]');
+		group.addEventListener('click', (e) => {
+			const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-filter]');
+			if (!btn) return;
+			const f = btn.dataset.filter;
+			for (const b of group.querySelectorAll('button')) b.setAttribute('aria-pressed', String(b === btn));
+			for (const r of rows) r.hidden = f !== 'all' && r.dataset.area !== f;
+		});
+	}
+</script>
 
 <style>
 	.hero {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 32px;
+		gap: 40px;
 		flex-wrap: wrap;
-		padding-block: 48px 24px;
+		padding-block: 56px 32px;
 	}
 
 	.hero > div {
-		flex: 1 1 420px;
+		flex: 1 1 460px;
 	}
 
 	h1 {
-		margin: 8px 0 16px;
-		font-size: clamp(2rem, 5vw, 3rem);
+		margin: 10px 0 18px;
+		font-size: clamp(34px, 5vw, 52px);
+		line-height: 1.08;
+		letter-spacing: -0.025em;
 	}
 
 	.lede {
-		max-width: 52ch;
+		max-width: 58ch;
+		margin: 0;
+		font-size: 18px;
 		color: var(--muted);
-		font-size: 1.1rem;
 	}
 
 	.links {
 		display: flex;
-		gap: 20px;
+		gap: 22px;
+		margin-top: 22px;
+		font-weight: 500;
+	}
+
+	.hero-bot {
+		line-height: 0;
+		transition: transform 0.2s ease;
+	}
+
+	.hero-bot:hover {
+		transform: rotate(-3deg);
 	}
 
 	.section {
 		margin-top: 72px;
 	}
 
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-		gap: 20px;
+	h2 {
+		margin: 0;
+		font-size: 28px;
+	}
+
+	.head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		flex-wrap: wrap;
+		margin-bottom: 8px;
+	}
+
+	.filters {
+		display: flex;
+		gap: 6px;
+	}
+
+	.filters[hidden] {
+		display: none;
+	}
+
+	.filters button {
+		padding: 5px 14px;
+		border: 1px solid var(--border);
+		border-radius: 999px;
+		background: var(--surface);
+		color: var(--fg);
+		font: inherit;
+		font-size: 14px;
+		cursor: pointer;
+	}
+
+	.filters button[aria-pressed='true'] {
+		background: var(--fg);
+		color: var(--bg);
+		border-color: var(--fg);
+	}
+
+	.work {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.play {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 32px;
+		padding: 32px 36px;
+		border: 1px solid var(--border);
+		border-radius: 18px;
+		background: var(--surface);
+	}
+
+	.play h2 {
+		margin: 6px 0 8px;
+	}
+
+	.play p:not(.eyebrow) {
+		max-width: 52ch;
+		color: var(--muted);
 	}
 
 	.archive {
 		list-style: none;
+		margin: 16px 0 0;
 		padding: 0;
-		margin: 0;
 	}
 
 	.archive li {
@@ -113,21 +228,31 @@ const archive = projects.filter((p) => p.data.tier === 'archive');
 	}
 
 	.archive span {
-		color: var(--muted);
 		font-size: 15px;
+		color: var(--muted);
 	}
 
-	.year {
+	.archive .yr {
 		font-family: var(--font-mono);
-		font-size: 13px !important;
+		font-size: 13px;
 	}
 
-	@media (max-width: 640px) {
+	@media (max-width: 760px) {
+		.hero {
+			padding-top: 32px;
+		}
+
+		.play {
+			flex-direction: column-reverse;
+			align-items: flex-start;
+			padding: 24px;
+		}
+
 		.archive li {
 			grid-template-columns: 1fr auto;
 		}
 
-		.archive li span:not(.year) {
+		.archive li span:not(.yr) {
 			grid-column: 1 / -1;
 			grid-row: 2;
 		}

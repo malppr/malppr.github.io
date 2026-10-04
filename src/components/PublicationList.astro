@@ -11,6 +11,9 @@ const pubs = (await getCollection('publications')).sort((a, b) => b.data.year - 
 			const link = data.links.paper ?? data.links.doi ?? data.links.arxiv;
 			return (
 				<li>
+					<span class="venue">
+						{data.venue} {data.year}
+					</span>
 					<p class="title">{link ? <a href={link}>{data.title}</a> : data.title}</p>
 					<p class="authors">
 						{data.authors.map((a, i) => (
@@ -20,15 +23,11 @@ const pubs = (await getCollection('publications')).sort((a, b) => b.data.year - 
 							</>
 						))}
 					</p>
-					<p class="venue">
-						{data.venue} {data.year}
-						{data.project && (
-							<>
-								{' · '}
-								<a href={`/projects/${data.project.id}`}>Project page</a>
-							</>
-						)}
-					</p>
+					{data.project && (
+						<a class="proj" href={`/projects/${data.project.id}`}>
+							Project page →
+						</a>
+					)}
 				</li>
 			);
 		})
@@ -38,28 +37,47 @@ const pubs = (await getCollection('publications')).sort((a, b) => b.data.year - 
 <style>
 	.pubs {
 		list-style: none;
-		margin: 0;
+		margin: 16px 0 0;
 		padding: 0;
-		display: grid;
-		gap: 20px;
 	}
 
-	p {
-		margin: 0;
-	}
-
-	.title {
-		font-weight: 600;
-	}
-
-	.authors,
-	.venue {
-		font-size: 15px;
-		color: var(--muted);
+	li {
+		padding: 16px 0;
+		border-bottom: 1px solid var(--border);
 	}
 
 	.venue {
 		font-family: var(--font-mono);
+		font-size: 12px;
+		font-weight: 500;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+
+	.title {
+		margin: 4px 0 2px;
+		font-weight: 600;
+	}
+
+	.title a {
+		text-decoration: none;
+	}
+
+	.title a:hover {
+		text-decoration: underline;
+	}
+
+	.authors {
+		margin: 0;
+		font-size: 14px;
+		color: var(--muted);
+	}
+
+	.proj {
+		display: inline-block;
+		margin-top: 4px;
 		font-size: 13px;
+		color: var(--muted);
 	}
 </style>

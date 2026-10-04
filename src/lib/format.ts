@@ -11,6 +11,17 @@ export const TAG_LABELS: Record<string, string> = {
 	design: 'Design',
 };
 
+// Top-level area shown on the site, derived from tags.
+export type Area = 'ai' | 'robotics' | 'design';
+
+export const AREA_LABELS: Record<Area, string> = { ai: 'AI', robotics: 'Robotics', design: 'Design' };
+
+export function areaOf(tags: readonly string[]): Area {
+	if (tags.includes('ai')) return 'ai';
+	if (tags.includes('design')) return 'design';
+	return 'robotics';
+}
+
 export function yearRange(start: Date, end?: Date, ongoing = false): string {
 	const a = start.getUTCFullYear();
 	if (ongoing) return `${a} – now`;
