@@ -1,6 +1,7 @@
 ---
 // Wheely, the site mascot, in the home hero: drives in on fresh arrivals and refreshes,
-// brakes with a wobble, then says hi. Parked (bubble on hover) under reduced motion.
+// brakes with a wobble, then says hi. Later, and from time to time, it invites you to the Playground
+// ("Play with me"). Parked (bubble on hover, no invitations) under reduced motion.
 import Mascot from './Mascot.astro';
 ---
 
@@ -18,7 +19,8 @@ import Mascot from './Mascot.astro';
 </script>
 
 <div class="wheely">
-	<p class="bubble">Hi! I'm <strong>Wheely</strong> 👋</p>
+	<p class="bubble hi">Hi! I'm <strong>Wheely</strong> 👋</p>
+	<a class="bubble play" href="/playground">Play with me <span aria-hidden="true">→</span></a>
 	<div class="drive">
 		<span class="speed" aria-hidden="true"></span>
 		<a href="/playground" aria-label="Wheely, the site mascot. Visit the playground">
@@ -26,6 +28,26 @@ import Mascot from './Mascot.astro';
 		</a>
 	</div>
 </div>
+
+<script>
+	// "Play with me": first ~7 s after arrival (after the intro's "Hi"), then 5 s every 25 s, only while the
+	// hero is on screen and the tab is visible. None under reduced motion.
+	const wheely = document.querySelector<HTMLElement>('.wheely');
+	const play = wheely?.querySelector<HTMLElement>('.play');
+	if (wheely && play && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		let onScreen = true;
+		new IntersectionObserver(([e]) => (onScreen = e.isIntersecting)).observe(wheely);
+		const first = document.documentElement.classList.contains('wheely-seen') ? 3000 : 7000;
+		const pop = () => {
+			if (onScreen && !document.hidden && !wheely.matches(':hover')) {
+				play.classList.add('show');
+				setTimeout(() => play.matches(':hover, :focus') || play.classList.remove('show'), 5000);
+			}
+			setTimeout(pop, 25000);
+		};
+		setTimeout(pop, first);
+	}
+</script>
 
 <style>
 	.wheely {
@@ -70,10 +92,40 @@ import Mascot from './Mascot.astro';
 			transform 0.2s ease;
 	}
 
-	:global(html) .wheely:is(:hover, :focus-within) .bubble {
+	:global(html) .wheely:is(:hover, :focus-within) .bubble.hi {
 		animation: none;
 		opacity: 1;
 		transform: scale(1);
+	}
+
+	/* "Play with me": hidden (and not focusable) until the script shows it. */
+	.play {
+		color: var(--accent);
+		font-weight: 600;
+		text-decoration: none;
+		visibility: hidden;
+		transition:
+			opacity 0.2s ease,
+			transform 0.2s ease,
+			visibility 0s 0.2s;
+	}
+
+	.play.show {
+		opacity: 1;
+		transform: scale(1);
+		visibility: visible;
+		pointer-events: auto;
+		transition-delay: 0s;
+	}
+
+	.play:hover {
+		color: var(--accent);
+		text-decoration: underline;
+	}
+
+	/* Hovering Wheely shows "Hi" instead. */
+	:global(html) .wheely:is(:hover, :focus-within) .play:not(:hover, :focus) {
+		opacity: 0;
 	}
 
 	/* Tail pointing down-right towards Wheely. */
@@ -114,7 +166,7 @@ import Mascot from './Mascot.astro';
 			animation: wheely-speed 1.25s ease-out both;
 		}
 
-		:global(html:not(.wheely-seen)) .bubble {
+		:global(html:not(.wheely-seen)) .bubble.hi {
 			animation:
 				wheely-pop 0.45s 1.2s cubic-bezier(0.3, 1.6, 0.5, 1) both,
 				wheely-out 0.6s 4.4s ease forwards;
