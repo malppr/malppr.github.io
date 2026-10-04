@@ -72,7 +72,7 @@ import Mascot from './Mascot.astro';
 	.bubble {
 		position: absolute;
 		top: 0;
-		left: 48%;
+		left: 8%; /* opens to the right but stays within Wheely's width (the hero clips overflow) */
 		z-index: 1;
 		margin: 0;
 		padding: 10px 16px;
@@ -213,14 +213,6 @@ import Mascot from './Mascot.astro';
 		to {
 			opacity: 0;
 			transform: scale(0.85);
-		}
-	}
-
-	/* Side-by-side hero without page margin to spare: Wheely sits at the edge, so the bubble starts further
-	   left to stay on screen (it still opens to the right). */
-	@media (min-width: 761px) and (max-width: 1160px) {
-		.bubble {
-			left: 20%;
 		}
 	}
 
