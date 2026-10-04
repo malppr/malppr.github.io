@@ -168,11 +168,16 @@ import Mascot from './Mascot.astro';
 		}
 	}
 
-	/* When Wheely wraps under the text (narrow screens), it sits on the left — bubble goes to its right. */
-	@media (max-width: 900px) {
+	/* When Wheely wraps under the text it is centred — bubble goes to its right. */
+	/* Hero text is flex-basis 460px + 40px gap + Wheely 220px, so it wraps below ~752px. */
+	@media (max-width: 760px) {
+		.wheely {
+			margin-inline: auto;
+		}
+
 		.bubble {
 			right: auto;
-			left: 58%;
+			left: 48%;
 			transform-origin: 0 100%;
 		}
 
