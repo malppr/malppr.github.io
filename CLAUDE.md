@@ -9,6 +9,7 @@ The plan, milestones and decisions are in `PLAN.md` — read it first.
 - `npm run build` — production build to `dist/`
 - `npm run preview` — serve the production build locally
 - `npm run check` — `astro check` (types + diagnostics)
+- `npm run check:all` — check + production build + broken-link scan (`scripts/check-links.mjs`). Run before any merge to `main`.
 
 Node is at `C:\Program Files\nodejs` (may not be on PATH in older shells).
 
