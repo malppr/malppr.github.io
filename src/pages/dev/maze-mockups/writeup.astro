@@ -1,0 +1,13 @@
+---
+// Mockup: the "How it works" destination (becomes the project page in M6; condensed story shown here).
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Story from '../_maze-mock/Story.astro';
+import scene from '../_maze-mock/scene.json';
+---
+
+<BaseLayout title="Mockup · How Wheely works" noindex>
+	<div class="container" style="padding-bottom:64px">
+		<p style="margin-top:28px"><a href="/dev/maze-mockups/play">← Back to the demo</a></p>
+		<Story scene={scene} />
+	</div>
+</BaseLayout>

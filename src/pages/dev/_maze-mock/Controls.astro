@@ -1,0 +1,174 @@
+---
+// Mockup only: version picker + toolbar. Static buttons.
+interface Props {
+	part: 'versions' | 'toolbar';
+	versions?: any[];
+}
+const { part, versions = [] } = Astro.props;
+const live = versions.filter((v) => v.live);
+const sel = live.find((v) => v.id === 'final');
+const blurb: Record<string, string> = {
+	heuristic: 'No learning, just rules I wrote by hand. Every other Wheely has to beat this.',
+	'v3-rookie': 'The first Wheely that learned to drive. Fine in the open, lost in mazes.',
+	'v4-owl-eyes': 'Rays all the way around, so it notices when it has driven into a pocket.',
+	final: 'Remembers its last move, so it stops dithering. Beats the rules in 6 of 7 tests.',
+};
+---
+
+{
+	part === 'versions' && (
+		<div class="versions">
+			<div class="chips" role="radiogroup" aria-label="Which Wheely">
+				{live.map((v) => (
+					<button class:list={['chip', { on: v.id === 'final' }]} role="radio" aria-checked={v.id === 'final' ? 'true' : 'false'}>
+						{v.name}
+					</button>
+				))}
+			</div>
+			<p class="blurb">{blurb[sel.id]}</p>
+		</div>
+	)
+}
+{
+	part === 'toolbar' && (
+		<div class="toolbar">
+			<div class="group">
+				<label class="select">
+					<span class="visually-hidden">Layout</span>
+					<select>
+						<option>Rooms</option>
+					</select>
+				</label>
+			</div>
+			<div class="group seg" role="radiogroup" aria-label="Tool">
+				<button class="on" title="Move A and B">Move</button>
+				<button title="Draw walls">Draw</button>
+				<button title="Erase walls">Erase</button>
+				<button title="Clear all walls">Clear</button>
+			</div>
+			<div class="group play">
+				<button class="icon" title="Reset" aria-label="Reset">
+					<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4" /></svg>
+				</button>
+				<button class="icon main" title="Pause" aria-label="Pause">
+					<svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" /></svg>
+				</button>
+				<button class="icon" title="Step" aria-label="Step">
+					<svg viewBox="0 0 24 24"><path d="M6 5l9 7-9 7zM18 5v14" /></svg>
+				</button>
+				<div class="seg speed" role="radiogroup" aria-label="Speed">
+					<button>½×</button>
+					<button class="on">1×</button>
+					<button>4×</button>
+				</div>
+			</div>
+		</div>
+	)
+}
+
+<style>
+	.versions {
+		display: grid;
+		gap: 6px;
+	}
+	.chips {
+		display: flex;
+		gap: 8px;
+		flex-wrap: wrap;
+	}
+	.chip {
+		flex: none;
+		padding: 6px 14px;
+		border: 1px solid var(--border);
+		border-radius: 999px;
+		background: var(--surface);
+		color: var(--fg);
+		font: 500 14px var(--font-sans);
+	}
+	.chip.on {
+		border-color: var(--fg);
+		background: var(--fg);
+		color: var(--bg);
+	}
+	.blurb {
+		margin: 0;
+		font-size: 14px;
+		color: var(--muted);
+	}
+	.toolbar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px 12px;
+	}
+	.group {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+	}
+	select {
+		padding: 6px 28px 6px 12px;
+		border: 1px solid var(--border);
+		border-radius: 8px;
+		background: var(--surface);
+		color: var(--fg);
+		font: 500 14px var(--font-sans);
+	}
+	.seg {
+		display: inline-flex;
+		gap: 0;
+		padding: 2px;
+		border: 1px solid var(--border);
+		border-radius: 9px;
+		background: var(--surface);
+	}
+	.seg button {
+		padding: 5px 11px;
+		border: 0;
+		border-radius: 7px;
+		background: none;
+		color: var(--muted);
+		font: 500 13px var(--font-sans);
+	}
+	.seg button.on {
+		background: var(--bg);
+		color: var(--fg);
+		box-shadow: inset 0 0 0 1px var(--border);
+	}
+	.icon {
+		display: grid;
+		place-items: center;
+		width: 34px;
+		height: 34px;
+		border: 1px solid var(--border);
+		border-radius: 50%;
+		background: var(--surface);
+		color: var(--fg);
+	}
+	.icon.main {
+		width: 40px;
+		height: 40px;
+		border-color: var(--fg);
+		background: var(--fg);
+		color: var(--bg);
+	}
+	.icon svg {
+		width: 18px;
+		height: 18px;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+	@media (max-width: 600px) {
+		.toolbar {
+			justify-content: flex-start;
+		}
+		.play {
+			width: 100%;
+			justify-content: space-between;
+		}
+	}
+</style>
