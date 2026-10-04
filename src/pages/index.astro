@@ -8,8 +8,6 @@ import { isVisible, sortProjects, yearRange } from '../lib/format';
 
 const projects = (await getCollection('projects', isVisible)).sort(sortProjects);
 const main = projects.filter((p) => p.data.tier === 'main');
-const featured = main.filter((p) => p.data.featured);
-const rest = main.filter((p) => !p.data.featured);
 const archive = projects.filter((p) => p.data.tier === 'archive');
 ---
 
@@ -43,8 +41,7 @@ const archive = projects.filter((p) => p.data.tier === 'archive');
 			</div>
 		</div>
 		<ul class="work">
-			{featured.map((p) => <ProjectRow project={p} featured />)}
-			{rest.map((p) => <ProjectRow project={p} />)}
+			{main.map((p) => <ProjectRow project={p} />)}
 		</ul>
 	</section>
 

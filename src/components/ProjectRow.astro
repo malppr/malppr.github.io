@@ -1,41 +1,32 @@
 ---
-// One project in the home-page work list. `featured` rows are larger and show context + role.
+// One project in the home-page work list. All rows share one size so text lines up.
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { AREA_LABELS, areaOf, yearRange } from '../lib/format';
 
 interface Props {
 	project: CollectionEntry<'projects'>;
-	featured?: boolean;
 }
 
-const { project, featured = false } = Astro.props;
+const { project } = Astro.props;
 const d = project.data;
 const area = areaOf(d.tags);
 ---
 
-<li class:list={['row', { 'row--featured': featured }]} data-area={area}>
+<li class="row" data-area={area}>
 	<a href={`/projects/${project.id}`}>
 		<div class="thumb">
-			<Image src={d.cover} alt={d.coverAlt} width={featured ? 480 : 240} />
+			<Image src={d.cover} alt={d.coverAlt} width={480} />
 		</div>
 		<div>
 			<p class="meta">
 				<span class={`area area--${area}`}>{AREA_LABELS[area]}</span>
 				<span>{yearRange(d.date, d.endDate, d.status === 'ongoing')}</span>
-				{featured && d.context && <span class="ctx">{d.context}</span>}
+				{d.context && <span class="ctx">{d.context}</span>}
 				{d.draft && <span class="draft">draft</span>}
 			</p>
 			<h3>{d.title}</h3>
 			<p class="sum">{d.summary}</p>
-			{
-				featured && d.role && (
-					<p class="role">
-						<span>My role</span>
-						{d.role}
-					</p>
-				)
-			}
 		</div>
 	</a>
 </li>
@@ -43,18 +34,13 @@ const area = areaOf(d.tags);
 <style>
 	a {
 		display: grid;
-		grid-template-columns: 168px 1fr;
+		grid-template-columns: 240px 1fr;
 		gap: 28px;
 		align-items: center;
-		padding: 22px 0;
+		padding: 24px 0;
 		border-bottom: 1px solid var(--border);
 		text-decoration: none;
 		color: inherit;
-	}
-
-	.row--featured a {
-		grid-template-columns: 320px 1fr;
-		padding: 28px 0;
 	}
 
 	.thumb {
@@ -82,12 +68,8 @@ const area = areaOf(d.tags);
 
 	h3 {
 		margin: 4px 0;
-		font-size: 21px;
+		font-size: 23px;
 		letter-spacing: -0.01em;
-	}
-
-	.row--featured h3 {
-		font-size: 26px;
 	}
 
 	.sum {
@@ -109,33 +91,15 @@ const area = areaOf(d.tags);
 		color: var(--accent);
 	}
 
-	.role {
-		display: grid;
-		grid-template-columns: 70px 1fr;
-		gap: 10px;
-		margin: 14px 0 0;
-		font-size: 14px;
-	}
-
-	.role span {
-		padding-top: 2px;
-		font-family: var(--font-mono);
-		font-size: 11px;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		color: var(--muted);
-	}
-
 	@media (max-width: 760px) {
-		.row--featured a {
-			grid-template-columns: 1fr;
-			gap: 14px;
-		}
-
-		.row:not(.row--featured) a {
-			grid-template-columns: 96px 1fr;
+		a {
+			grid-template-columns: 112px 1fr;
 			gap: 16px;
 			align-items: start;
+		}
+
+		h3 {
+			font-size: 19px;
 		}
 
 		.ctx {
