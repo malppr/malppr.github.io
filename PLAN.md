@@ -75,7 +75,7 @@ MDX components: `<Figure>`, `<Video>` (autoplay-muted loop, poster, reduced-moti
 
 | Project | Tier | Tags | Notes |
 |---|---|---|---|
-| Robotic Bookshelf | main, featured | hardware, robot-learning? (HRI) | RO-MAN 2023 paper link |
+| Robotic Bookshelf | main, featured | hardware, robot-learning? (HRI) | RO-MAN 2023 paper link; final-experiment video https://www.youtube.com/watch?v=cmLbnvv-03Y |
 | BeetleBot (capstone) | main | hardware, perception | YouTube embed, gallery |
 | LEAP TTS | main | ai | Fix audio sources; AudioCompare |
 | HyperX TTS | main | ai | arXiv 2406.17257 |
@@ -83,7 +83,7 @@ MDX components: `<Figure>`, `<Video>` (autoplay-muted loop, poster, reduced-moti
 | Golden Grips | archive | design | |
 | LumiComb | archive | design, hardware | Compress BestSmall.jpg (4 MB) |
 | TMS Coil | archive | hardware | |
-| Robot-arm project | main, featured, ongoing | robot-learning | Placeholder page + lab notes |
+| Robot-arm project | hidden (`draft: true`) | robot-learning | Keep hidden until Bryan says otherwise |
 | Maze Bot | main, featured, ongoing | robot-learning, ai | `demo: maze` |
 | PushT Diffusion | draft until it exists | robot-learning | `demo: pusht` |
 
@@ -161,7 +161,8 @@ Nothing goes live without Bryan reviewing it locally first.
 
 ## 13. Open decisions
 
-- [ ] Fonts and accent color (W2).
-- [ ] Mascot art: Bryan sketches, or Claude drafts SVG for edits.
+- [ ] Fonts and accent color: Claude mocks up a few options in W2 for Bryan to pick.
+- [ ] Résumé PDF: Bryan supplies final copy near cutover; do not add before then.
+- [ ] Mascot art: Bryan to supply a 3D base design (GLB/OBJ/STL/STEP or top/side/front screenshots); Claude derives flat SVGs (top-down sprite + side-view logo).
 - [ ] Custom domain now or later.
 - [ ] Bookshelf tags: hardware + "hri"? (add `hri` tag if yes).
